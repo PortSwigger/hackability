@@ -420,11 +420,11 @@ if(Object.defineProperty) {
 !function(){
 	try {
 		eval("class x{}");
-		BurpRenderer.makeRequest("info_es6_exists");
-		BurpRenderer.generateRow(true, "ES6 exists");
+		BurpRenderer.makeRequest("info_es6_is_supported");
+		BurpRenderer.generateRow(true, "ES6 is supported");
 	} catch(e){
-		BurpRenderer.makeRequest("info_es6_does_not_exist");
-		BurpRenderer.generateRow(false, "ES6 does not exist");
+		BurpRenderer.makeRequest("info_es6_is_not_supported");
+		BurpRenderer.generateRow(false, "ES6 is not supported");
 	}
 }();
 </script>
@@ -621,6 +621,25 @@ BurpRenderer.iframe_handler = function(iframe, type, msg){
 };
 </script>
 <script>
+BurpRenderer.print = function(){
+  function afterPrint() {
+      BurpRenderer.makeRequest("info_allows_printing");
+      BurpRenderer.generateRow(true,"Allows printing");
+  }
+  if (window.matchMedia) {
+      var mediaQueryList = window.matchMedia('print');
+      mediaQueryList.addListener(function(mql) {
+          if(!mql.matches) {
+              afterPrint();
+          }
+      });
+  } else {
+    window.onafterprint = afterPrint;
+  }
+  window.print();
+};
+</script>
+<script>
 BurpRenderer.createIframe = function(src, msg, type){
 	var iframe = document.createElement('iframe');
 	iframe.src = src;
@@ -702,12 +721,14 @@ if(window.addEventListener) {
 	window.addEventListener('load', function(){
 		setTimeout(function(){
 			BurpRenderer.runExploits();
+      BurpRenderer.print();
 		}, 5000);
 	}, false); 
 } else if(window.attachEvent) {
 	window.attachEvent('onload', function(){
 		setTimeout(function(){
 			BurpRenderer.runExploits();
+      BurpRenderer.print();
 		}, 5000);
 	}); 
 }
