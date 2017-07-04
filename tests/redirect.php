@@ -22,7 +22,7 @@ if($redirectType === 'http') {
 <html>
 <head>
 <!-- IGNORE THIS CONTENTS -->
-<script>location='<?php echo $os === 'windows' ? 'file://\\\\'.$_SERVER['HTTP_HOST'].'\\map\\exploit_redirect_meta_local_file_iframe_windows': 'file:////etc/passwd'?>';
+<script>location='<?php echo $os === 'windows' ? 'file://\\\\'.$_SERVER['HTTP_HOST'].'\\\\map\\\\exploit_redirect_meta_local_file_iframe_windows': 'file:////etc/passwd'?>';
 </script>
 </head>
 </html>
