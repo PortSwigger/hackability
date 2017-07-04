@@ -463,7 +463,7 @@ if(!'a'[0]) {
 <script>
 if('\u' === 'u') {
 	BurpRenderer.makeRequest("info_safari_like");
-	BurpRenderer.generateRow(true, "Safari like behavhiour");
+	BurpRenderer.generateRow(true, "Safari like behaviour");
 }
 </script>
 <script>
@@ -664,6 +664,14 @@ BurpRenderer.print = function(){
   }
   window.print();
 };
+</script>
+<script>
+if(navigator.geolocation && navigator.geolocation.getCurrentPosition) {
+  navigator.geolocation.getCurrentPosition(function(position) {
+    BurpRenderer.makeRequest("info_geolocation&lat="+position.coords.latitude+"&long="+position.coords.longitude);
+    BurpRenderer.generateRow(true, "Geo location allowed:lat="+position.coords.latitude+"&long="+position.coords.longitude);
+  });
+}
 </script>
 <script>
 BurpRenderer.createIframe = function(src, msg, type){
