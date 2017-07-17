@@ -1,6 +1,8 @@
 <?php
 $pathInfo = pathinfo($_SERVER['PHP_SELF']);
-$path = $pathInfo['dirname'] . "/";
+if($pathInfo['dirname'] !== '/') {
+  $path = $pathInfo['dirname'] . "/";
+}
 ?>
 <html>
 <head>
