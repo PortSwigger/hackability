@@ -100,7 +100,7 @@ Hackability.generateRequestUrl = function(type) {
 <body>
 <div class="container">
     <h1>Rendering Engine Hackability Probe</h1>
-    <p>This page attempts to detect what the client supports</p>
+    <p>This page attempts to detect what technologies the client supports. You can find the source at <a href="https://github.com/PortSwigger/hackability">https://github.com/PortSwigger/hackability</a>. For further information, please refer to the whitepaper at <a href='http://blog.portswigger.net/2017/07/cracking-lens-targeting-https-hidden.html'>http://blog.portswigger.net/2017/07/cracking-lens-targeting-https-hidden.html</a></p>
 <table>
   <tr>
     <td valign=top>
