@@ -309,7 +309,7 @@ var props = 'Hackability,orientation,onorientationchange,ontouchcancel,ontouchen
 				Hackability.generateRow(true, "SOP bypassed");
 			} catch(e){
 				Hackability.makeRequest("info_sop_enabled_iframe");
-				Hackability.generateRow(false, "SOP not bypassed");
+				Hackability.generateRow(false, "SOP bypassed");
 			}
 		};
 		document.querySelector('.render').appendChild(iframe);
