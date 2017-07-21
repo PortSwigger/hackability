@@ -134,7 +134,7 @@ window.inspector = function(){
   }
   function createEnumerator(obj, isRoot, name, path, parent) {
     var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, regexInput,
-        ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a');
+        ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a'), test;
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
     output += '<tr>';
@@ -169,12 +169,12 @@ window.inspector = function(){
     if(isWindow(obj)) {
       output += '<div class="box">Is a window object</div>';
       try {
-        obj.x
+        test = obj.x;
       } catch(e){
         try {
           e.toString().replace(/https?:\/\/[^\s'"]+/gi,function(domain){
             if(domain !== location.origin) {
-              output += '<div class="error" style=width:auto>Leaking X-Domain origin from iframe</div>';
+              output += '<div class="error" style=width:auto>Leaking X-domain origin from iframe</div>';
             }
           });
         } catch(e){}
@@ -185,7 +185,7 @@ window.inspector = function(){
     }
     try {
       if(obj.constructor.constructor('return document.domain')() !== document.domain) {
-        output += '<div class="error" style=width:auto>X-Domain constructor found!</div>';
+        output += '<div class="error" style=width:auto>X-domain constructor found!</div>';
       }
     } catch(e){}
     output += '</td>';
