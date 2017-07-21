@@ -95,9 +95,36 @@ window.inspector = function(){
       return false;
     }
   }
-  function createEnumerator(obj, isRoot, name) {
+  function jsEscapeProperty(str) {
+    str = str + '';
+    return str.replace(/[\s']/gi, function(c){
+      if(/\s/.test(c) && !/./.test(c)) {
+        return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+      } else if(c === "'") {
+        return '\\u0027';
+      } else {
+        return c;
+      }
+    });
+  }
+  function generatePath(path) {
+    var i, prop, generatedPath = '';
+    path = path.split('.');
+    for(i=0;i<path.length;i++) {
+      prop = path[i];
+      if(i == 0) {
+        generatedPath = prop;
+      } else if(/^[a-z$_][\w$]*$/i.test(prop)) {
+        generatedPath += '.' + prop;
+      } else {
+        generatedPath += '['+jsEscapeProperty(prop)+']';
+      }
+    }
+    return generatedPath;
+  }
+  function createEnumerator(obj, isRoot, name, path) {
     var enumerator = document.createElement('div'), output = '', realType, prop,
-        ul = document.createElement('ul'), li = document.createElement('li');
+        ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a');
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
     output += '<tr>';
@@ -127,7 +154,23 @@ window.inspector = function(){
     ul.className = 'enumerator';
     li.object = obj;
     li.className = isRoot ? 'on' : 'off';
-    li.innerHTML = '<a href="#" onclick="if(this.parentNode.className===\'off\'){if(!this.parentNode.enumerated){this.parentNode.enumerate();}this.parentNode.className=\'on\';this.innerHTML=\'&amp;#9660;\';}else{this.parentNode.className=\'off\';this.innerHTML=\'&amp;#9654;\';}return false;">'+(isRoot? '&#9660;' : '&#9654;')+'</a>';
+    anchor.href = '#';
+    anchor.onclick = function(){
+      if(this.parentNode.className==='off'){
+          if(!this.parentNode.enumerated){
+            this.parentNode.enumerate();
+          }
+          this.parentNode.className='on';
+          this.innerHTML='&#9660;';
+        } else {
+          this.parentNode.className='off';
+          this.innerHTML='&#9654;';
+        }
+        location.hash = generatePath(path);
+        return false;
+    };
+    anchor.innerHTML = isRoot ? '&#9660;' : '&#9654;';
+    li.appendChild(anchor);
     li.enumerate = function(){
         var i, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {};
         for(i in this.object) {
@@ -195,7 +238,7 @@ window.inspector = function(){
           }
           li = document.createElement('li');
           try {
-            li.appendChild(createEnumerator(this.object[props[i]],false, props[i]));
+            li.appendChild(createEnumerator(this.object[props[i]],false, props[i], path + '.' + props[i]));
           } catch(e){}
           ul.appendChild(li);
           checkProp['_check_'+props[i]] = 1;
@@ -215,7 +258,7 @@ window.inspector = function(){
     if(isHTML) {
       div.innerHTML = output;
     } else {
-      div.appendChild(createEnumerator(output,true, name));
+      div.appendChild(createEnumerator(output, true, name, name));
     }
     div.className = 'output';
     domObjects.output.insertBefore(div, domObjects.output.firstChild);
