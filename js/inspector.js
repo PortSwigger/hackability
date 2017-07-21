@@ -231,7 +231,7 @@ window.inspector = function(){
       li.appendChild(regexInput);
     }
     li.enumerate = function(interestingOnly, filter) {
-        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex;
+        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], found;
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
         }
@@ -304,8 +304,25 @@ window.inspector = function(){
               }
             }
           }
+        } else {
+          for(i=0;i<props.length;i++) {
+            found = false;
+            for(j=0;j<knownWindowProps.length;j++) {
+              if(knownWindowProps[j] === props[i]) {
+                found = true;
+                break;
+              }
+            }
+            if(!found) {
+              interestingProps.push(props[i]);
+            }
+          }
         }
         props = props.sort();
+        if(interestingProps.length) {
+            interestingProps = interestingProps.sort();
+            props = interestingProps.concat(props);
+        }
         for(i=0;i<props.length;i++) {
           if(checkProp['_check_'+props[i]]){
             continue;
