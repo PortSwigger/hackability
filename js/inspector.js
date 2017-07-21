@@ -107,6 +107,15 @@ window.inspector = function(){
       }
     });
   }
+  function jsEscape(str) {
+    str = str + '';
+    return str.replace(/[<>'"\s&\\]/gi, function(c){
+        if(/\s/.test(c) && /./.test(c)) {
+          return c;
+        }
+        return '\\u'+('0000'+c.charCodeAt(0).toString(16)).slice(-4);
+    });
+  }
   function generatePath(path) {
     var i, prop, generatedPath = '';
     path = path.split('.');
@@ -122,8 +131,8 @@ window.inspector = function(){
     }
     return generatedPath;
   }
-  function createEnumerator(obj, isRoot, name, path) {
-    var enumerator = document.createElement('div'), output = '', realType, prop,
+  function createEnumerator(obj, isRoot, name, path, parent) {
+    var enumerator = document.createElement('div'), output = '', realType, prop, descriptor,
         ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a');
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
@@ -141,8 +150,24 @@ window.inspector = function(){
     } else if(obj && typeof obj.length !== 'undefined') {
       output += '<div class="box length">length:'+escapeHTML(obj.length)+'</div>';
     }
+    if(Object.getOwnPropertyDescriptor && parent) {
+      descriptor = Object.getOwnPropertyDescriptor(parent, name);
+      if(descriptor) {
+        output += '<div class="box"><table><tr><td>Writable</td><td>'+escapeHTML(descriptor.writable)+'</td></tr>';
+        output += '<tr><td>Configurable</td><td>'+escapeHTML(descriptor.configurable)+'</td></tr>';
+        output += '<tr><td>Enumerable</td><td>'+escapeHTML(descriptor.enumerable)+'</td></tr>';
+        if(descriptor.set) {
+          output += '<tr><td>Setter</td><td>'+escapeHTML(descriptor.set)+'</td></tr>';
+        }
+        if(descriptor.get) {
+          output += '<tr><td>Getter</td><td>'+escapeHTML(descriptor.get)+'</td></tr>';
+        }
+        output += '</table></div>';
+      }
+    }
     if(isWindow(obj)) {
       output += '<div class="box">Is a window object</div>';
+      output += '<div class="box"><input type="checkbox" onclick="" /><label>Show only interesting properties</label></div>';
     }
     if(isFunctionConstructor(obj)) {
       output += '<div class="box">Is a function constructor</div>';
@@ -238,7 +263,7 @@ window.inspector = function(){
           }
           li = document.createElement('li');
           try {
-            li.appendChild(createEnumerator(this.object[props[i]],false, props[i], path + '.' + props[i]));
+            li.appendChild(createEnumerator(this.object[props[i]],false, props[i], path + '.' + props[i], this.object));
           } catch(e){}
           ul.appendChild(li);
           checkProp['_check_'+props[i]] = 1;
