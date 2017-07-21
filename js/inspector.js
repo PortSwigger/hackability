@@ -133,7 +133,7 @@ window.inspector = function(){
     return generatedPath;
   }
   function createEnumerator(obj, isRoot, name, path, parent) {
-    var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox,
+    var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, regexInput,
         ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a');
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
@@ -168,10 +168,26 @@ window.inspector = function(){
     }
     if(isWindow(obj)) {
       output += '<div class="box">Is a window object</div>';
+      try {
+        obj.x
+      } catch(e){
+        try {
+          e.toString().replace(/https?:\/\/[^\s'"]+/gi,function(domain){
+            if(domain !== location.origin) {
+              output += '<div class="error" style=width:auto>Leaking X-Domain origin from iframe</div>';
+            }
+          });
+        } catch(e){}
+      }
     }
     if(isFunctionConstructor(obj)) {
       output += '<div class="box">Is a function constructor</div>';
     }
+    try {
+      if(obj.constructor.constructor('return document.domain')() !== document.domain) {
+        output += '<div class="error" style=width:auto>X-Domain constructor found!</div>';
+      }
+    } catch(e){}
     output += '</td>';
     output += '</tr>';
     output += '</table>';
@@ -205,8 +221,20 @@ window.inspector = function(){
       li.appendChild(checkbox);
       li.appendChild(document.createTextNode('Only show interesting properties'));
     }
-    li.enumerate = function(interestingOnly) {
-        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {};
+    li.appendChild(document.createTextNode(' '));
+    if(realType === 'object') {
+      regexInput = document.createElement('input');
+      regexInput.placeholder = 'RegEx';
+      regexInput.onchange = function(){
+          li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, this.value);
+      };
+      li.appendChild(regexInput);
+    }
+    li.enumerate = function(interestingOnly, filter) {
+        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex;
+        if(typeof filter !== 'undefined') {
+          regex = new RegExp(filter);
+        }
         if(this.enumerated) {
           this.removeChild(this.getElementsByTagName('ul')[0]);
         }
@@ -288,6 +316,11 @@ window.inspector = function(){
             }
           } catch(e){
             continue;
+          }
+          if(regex) {
+              if(!regex.test(props[i])) {
+                continue;
+              }
           }
           li = document.createElement('li');
           try {
