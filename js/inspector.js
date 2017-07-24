@@ -122,16 +122,17 @@ window.inspector = function(){
     });
   }
   function generatePath(path) {
-    var i, prop, generatedPath = '';
-    path = path.split('.');
+    var i, prop, generatedPath = ''
     for(i=0;i<path.length;i++) {
       prop = path[i];
       if(i == 0) {
         generatedPath = prop;
       } else if(/^[a-z$_][\w$]*$/i.test(prop)) {
         generatedPath += '.' + prop;
-      } else {
+      } else if(/^\d+$/.test(prop)) {
         generatedPath += '['+jsEscapeProperty(prop)+']';
+      } else {
+        generatedPath += '[\''+jsEscapeProperty(prop)+'\']';
       }
     }
     return generatedPath;
@@ -351,7 +352,7 @@ window.inspector = function(){
           }
           li = document.createElement('li');
           try {
-            li.appendChild(createEnumerator(this.object[props[i]], false, props[i], path + '.' + props[i], this.object));
+            li.appendChild(createEnumerator(this.object[props[i]], false, props[i], path.concat([props[i]]), this.object));
             ul.appendChild(li);
           } catch(e){}
           checkProp['_check_'+props[i]] = 1;
@@ -371,7 +372,7 @@ window.inspector = function(){
     if(isHTML) {
       div.innerHTML = output;
     } else {
-      div.appendChild(createEnumerator(output, true, name, name));
+      div.appendChild(createEnumerator(output, true, name, [name]));
     }
     div.className = 'output';
     domObjects.output.insertBefore(div, domObjects.output.firstChild);
