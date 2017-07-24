@@ -4,9 +4,13 @@ window.inspector = function(){
   result, domObjects, historyPos = 0;
   function inspect(object, isHTML) {
      var errorMessage;
+      if(/^</.test(object)) {
+         isHTML = true;
+      }
       if(isHTML){
           createOutput(object, true);
           createHistory(object);
+          domObjects.input.value = '';
           return;
       }
     try {
