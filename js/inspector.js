@@ -143,7 +143,7 @@ window.inspector = function(){
     return generatedPath;
   }
   function createEnumerator(obj, isRoot, name, path, parent) {
-    var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, regexInput,
+    var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, regexInput, jsInput,
         ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a'), test;
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
@@ -246,7 +246,16 @@ window.inspector = function(){
       };
       li.appendChild(regexInput);
     }
-    li.enumerate = function(interestingOnly, filter) {
+    if(realType === 'object') {
+      li.appendChild(document.createTextNode(' '));
+      jsInput = document.createElement('input');
+      jsInput.placeholder = 'Execute js: obj[prop]("args")';
+      jsInput.onchange = function(){
+          li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, regexInput.value, this.value);
+      };
+      li.appendChild(jsInput);
+    }
+    li.enumerate = function(interestingOnly, filter, js) {
         var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], found;
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
@@ -358,6 +367,13 @@ window.inspector = function(){
               if(!regex.test(props[i])) {
                 continue;
               }
+          }
+          if(js) {
+            try {
+              Function('obj','prop',js)(this.object, props[i])();
+            } catch(e){
+              console.error(e);
+            }
           }
           li = document.createElement('li');
           try {
