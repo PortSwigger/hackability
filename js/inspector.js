@@ -67,12 +67,16 @@ window.inspector = function(){
     }
   }
   function getRealType(obj) {
-    if((Array.isArray && Array.isArray(obj)) || (obj && typeof obj.length === 'number' && Object.prototype.toString.call(obj) === '[object Array]')) {
-      return 'Array';
-    }
-    if((Number.isNaN && Number.isNaN(obj)) || (obj !== obj && typeof obj === 'number')) {
-      return 'NaN';
-    }
+    try {
+      if((Array.isArray && Array.isArray(obj)) || (obj && typeof obj.length === 'number' && Object.prototype.toString.call(obj) === '[object Array]')) {
+        return 'Array';
+      }
+    } catch(e){}
+    try {
+      if((Number.isNaN && Number.isNaN(obj)) || (obj !== obj && typeof obj === 'number')) {
+        return 'NaN';
+      }
+    } catch(e){}
     if(null === obj) {
       return 'null';
     }
@@ -152,19 +156,21 @@ window.inspector = function(){
       output += '<div class="box length">length:'+escapeHTML(obj.length)+'</div>';
     }
     if(Object.getOwnPropertyDescriptor && parent) {
-      descriptor = Object.getOwnPropertyDescriptor(parent, name);
-      if(descriptor) {
-        output += '<div class="box"><table><tr><td>Writable</td><td>'+escapeHTML(descriptor.writable)+'</td></tr>';
-        output += '<tr><td>Configurable</td><td>'+escapeHTML(descriptor.configurable)+'</td></tr>';
-        output += '<tr><td>Enumerable</td><td>'+escapeHTML(descriptor.enumerable)+'</td></tr>';
-        if(descriptor.set) {
-          output += '<tr><td>Setter</td><td>'+escapeHTML(descriptor.set)+'</td></tr>';
+      try {
+        descriptor = Object.getOwnPropertyDescriptor(parent, name);
+        if(descriptor) {
+          output += '<div class="box"><table><tr><td>Writable</td><td>'+escapeHTML(descriptor.writable)+'</td></tr>';
+          output += '<tr><td>Configurable</td><td>'+escapeHTML(descriptor.configurable)+'</td></tr>';
+          output += '<tr><td>Enumerable</td><td>'+escapeHTML(descriptor.enumerable)+'</td></tr>';
+          if(descriptor.set) {
+            output += '<tr><td>Setter</td><td>'+escapeHTML(descriptor.set)+'</td></tr>';
+          }
+          if(descriptor.get) {
+            output += '<tr><td>Getter</td><td>'+escapeHTML(descriptor.get)+'</td></tr>';
+          }
+          output += '</table></div>';
         }
-        if(descriptor.get) {
-          output += '<tr><td>Getter</td><td>'+escapeHTML(descriptor.get)+'</td></tr>';
-        }
-        output += '</table></div>';
-      }
+      } catch(e){}
     }
     if(isWindow(obj)) {
       output += '<div class="box">Is a window object</div>';
@@ -224,7 +230,7 @@ window.inspector = function(){
     li.appendChild(document.createTextNode(' '));
     if(realType === 'object') {
       regexInput = document.createElement('input');
-      regexInput.placeholder = 'RegEx';
+      regexInput.placeholder = 'Filter properties by regex';
       regexInput.onchange = function(){
           li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, this.value);
       };
@@ -286,15 +292,19 @@ window.inspector = function(){
       			}
       		} catch(e){}
         }
-        if(Object.getOwnPropertyDescriptors) {
-          descriptors = Object.getOwnPropertyDescriptors(this.object);
-          for(i in descriptors) {
+        try {
+        if(Object.getOwnPropertyDescriptors && this.object) {
+            descriptors = Object.getOwnPropertyDescriptors(this.object);
+            for(i in descriptors) {
+              props.push(i);
+            }
+          }
+        } catch(e){}
+        try {
+          for(i in this.object) {
             props.push(i);
           }
-        }
-        for(i in this.object) {
-          props.push(i);
-        }
+        } catch(e){}
         if(interestingOnly) {
           for(i=0;i<knownWindowProps.length;i++) {
             for(j=0;j<props.length;j++) {
@@ -341,9 +351,9 @@ window.inspector = function(){
           }
           li = document.createElement('li');
           try {
-            li.appendChild(createEnumerator(this.object[props[i]],false, props[i], path + '.' + props[i], this.object));
+            li.appendChild(createEnumerator(this.object[props[i]], false, props[i], path + '.' + props[i], this.object));
+            ul.appendChild(li);
           } catch(e){}
-          ul.appendChild(li);
           checkProp['_check_'+props[i]] = 1;
         }
         this.appendChild(ul);
