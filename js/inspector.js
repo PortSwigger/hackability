@@ -180,8 +180,11 @@ window.inspector = function(){
       } catch(e){
         try {
           e.toString().replace(/https?:\/\/[^\s'"]+/gi,function(domain){
+            domain = domain.replace(/[.]+$/,'');
+            domain = domain.replace(/\s+$/,'');
+            domain = domain.replace(/^\s+/,'');
             if(domain !== location.origin) {
-              output += '<div class="error" style=width:auto>Leaking X-domain origin from iframe</div>';
+              output += '<div class="error" style=width:auto>Leaking X-domain origin from iframe: '+escapeHTML(domain)+'</div>';
             }
           });
         } catch(e){}
