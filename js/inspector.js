@@ -171,11 +171,25 @@ window.inspector = function(){
           output += '<div class="box"><table><tr><td>Writable</td><td>'+escapeHTML(descriptor.writable)+'</td></tr>';
           output += '<tr><td>Configurable</td><td>'+escapeHTML(descriptor.configurable)+'</td></tr>';
           output += '<tr><td>Enumerable</td><td>'+escapeHTML(descriptor.enumerable)+'</td></tr>';
+          output += '<tr><td>Value</td><td>'+escapeHTML(descriptor.value)+'</td></tr>';
+          if(descriptor.value) {
+            try {
+              if(descriptor.value.constructor('return document.domain')() !== document.domain)
+              output += '<tr><td>Value constructor</td><td><div class="error" style=width:auto>X-domain constructor found!</div></td></tr>';
+            } catch(e){}
+          }
           if(descriptor.set) {
             output += '<tr><td>Setter</td><td>'+escapeHTML(descriptor.set)+'</td></tr>';
           }
           if(descriptor.get) {
             output += '<tr><td>Getter</td><td>'+escapeHTML(descriptor.get)+'</td></tr>';
+            try {
+              if(descriptor.get.constructor('return document.domain')() !== document.domain)
+              output += '<tr><td>Getter constructor</td><td><div class="error" style=width:auto>X-domain constructor found!</div></td></tr>';
+            } catch(e){}
+            try {
+              output += '<tr><td>Calling getter</td><td>'+escapeHTML(descriptor.get.call(parent))+'</td></tr>';
+            } catch(e){}
           }
           output += '</table></div>';
         }
@@ -192,7 +206,7 @@ window.inspector = function(){
             domain = domain.replace(/\s+$/,'');
             domain = domain.replace(/^\s+/,'');
             if(domain !== location.origin) {
-              output += '<div class="error" style=width:auto>Leaking X-domain origin from iframe: '+escapeHTML(domain)+'</div>';
+              output += '<div class="error" style=width:auto>Leaking x-domain origin from iframe: '+escapeHTML(domain)+'</div>';
             }
           });
         } catch(e){}
@@ -214,6 +228,7 @@ window.inspector = function(){
     li.object = obj;
     li.className = isRoot ? 'on' : 'off';
     anchor.href = '#';
+    anchor.title = generatePath(path);
     anchor.onclick = function(){
       if(this.parentNode.className==='off'){
           if(!this.parentNode.enumerated){
