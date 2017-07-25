@@ -48,16 +48,17 @@ form {
   list-style: none;
   margin:0;
   padding:0;
+  margin-bottom:20px;
 }
 .enumerator ul {
   list-style: none;
 }
-.enumerator ul {
-  margin:0px;
-  padding:0px;
-  -webkit-padding-start:0;
+.enumerator li > ul {
+  -webkit-margin-start: 0;
   padding-left:10px;
-  margin-bottom:20px;
+}
+.enumerator {
+  padding-left:0;
 }
 .enumerator > li.off > ul {
   display:none;
