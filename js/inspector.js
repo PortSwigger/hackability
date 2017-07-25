@@ -392,7 +392,7 @@ window.inspector = function(){
               interestingPropsLookup['_check_'+props[i]] = 1;
             }
           }
-        } else {
+        } else if(isWindow(this.object)) {
           for(i=0;i<props.length;i++) {
             found = false;
             for(j=0;j<knownWindowProps.length;j++) {
