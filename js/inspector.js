@@ -309,7 +309,7 @@ window.inspector = function(){
       li.appendChild(objectType);
     }
     li.enumerate = function(interestingOnly, filter, js, selectedType) {
-        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, ownPropertiesLookup = {}, ownProps = [];
+        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type;
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
         }
@@ -374,17 +374,7 @@ window.inspector = function(){
         } catch(e){}
         try {
           for(i in this.object) {
-            try {
-              if(this.object.hasOwnProperty(i)) {
-                ownProps.push(i);
-                ownPropertiesLookup['_check_'+i] = 1;
-              } else {
-                props.push(i);
-              }
-              continue;
-            } catch(e){}
-            ownProps.push(i);
-            ownPropertiesLookup['_check_'+i] = 1;
+            props.push(i);
           }
         } catch(e){}
         if(interestingOnly) {
@@ -401,7 +391,7 @@ window.inspector = function(){
               interestingPropsLookup['_check_'+props[i]] = 1;
             }
           }
-        } else if(isWindow(this.object)) {
+        } else {
           for(i=0;i<props.length;i++) {
             found = false;
             for(j=0;j<knownWindowProps.length;j++) {
@@ -421,16 +411,12 @@ window.inspector = function(){
             interestingProps = interestingProps.sort();
             props = interestingProps.concat(props);
         }
-        if(ownProps.length) {
-          ownProps.sort();
-          props = ownProps.concat(props);
-        }
         for(i=0;i<props.length;i++) {
           if(checkProp['_check_'+props[i]]){
             continue;
           }
           try {
-            if(typeof obj[props[i]] === 'undefined' && !ownPropertiesLookup['_check_'+props[i]]) {
+            if(typeof obj[props[i]] === 'undefined') {
               continue;
             }
           } catch(e){
