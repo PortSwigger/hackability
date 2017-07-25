@@ -166,7 +166,7 @@ window.inspector = function(){
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
     output += '<tr>';
-    output += '<td valign="top" class="propertyName">'+escapeHTML(generatePath(path))+'</td>';
+    output += '<td valign="top" class="propertyName"><a href=# onclick="inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">'+escapeHTML(generatePath(path))+'</a></td>';
     output += '<td valign="top" class="propertyValue '+escapeHTML(realType)+(interestingProp?' interesting':'')+'">';
     try {
       output += '<code><pre>'+escapeHTML(obj)+'</pre></code>';
@@ -374,6 +374,15 @@ window.inspector = function(){
         } catch(e){}
         try {
           for(i in this.object) {
+            try {
+              if(this.object.hasOwnProperty(i)) {
+                ownProps.push(i);
+                ownPropertiesLookup['_check_'+i] = 1;
+              } else {
+                props.push(i);
+              }
+              continue;
+            } catch(e){}
             ownProps.push(i);
             ownPropertiesLookup['_check_'+i] = 1;
           }
@@ -496,6 +505,9 @@ window.inspector = function(){
     div.className = 'error';
     domObjects.output.insertBefore(div, domObjects.output.firstChild);
   }
+  function setInput(input) {
+    domObjects.input.value = input;
+  }
   function setDomObjects(obj) {
       domObjects = obj;
       domObjects.input.onkeydown = function(e){
@@ -543,6 +555,7 @@ window.inspector = function(){
   }
   return {
       inspect: inspect,
+      setInput: setInput,
       setDomObjects: setDomObjects,
       clear: clear,
       clearHistory: clearHistory
