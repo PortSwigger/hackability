@@ -229,7 +229,7 @@ window.inspector = function(){
       output += '<div class="box">Is a function constructor</div>';
     }
     try {
-      if(obj.constructor.constructor('return document.domain')() !== document.domain) {
+      if(obj.constructor && obj.constructor.constructor && obj.constructor.constructor('return document.domain')() !== document.domain) {
         output += '<div class="error" style=width:auto>X-domain constructor found!</div>';
       }
     } catch(e){}
