@@ -281,7 +281,7 @@ window.inspector = function(){
       jsInput = document.createElement('input');
       jsInput.placeholder = 'JS: obj[prop]("args")';
       jsInput.onchange = function(){
-          li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, regexInput.value, this.value, objectType.options[objectType.selectedIndex].value);
+        li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, regexInput.value, this.value, objectType.options[objectType.selectedIndex].value);
       };
       li.appendChild(jsInput);
     }
@@ -446,7 +446,9 @@ window.inspector = function(){
             try {
               Function('obj','prop',js)(this.object, props[i])();
             } catch(e){
-              console.error(e);
+              if(window.console) {
+                console.error(e.message);
+              }
             }
           }
           li = document.createElement('li');
