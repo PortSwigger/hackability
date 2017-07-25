@@ -162,7 +162,7 @@ window.inspector = function(){
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
     output += '<tr>';
-    output += '<td valign="top" class="propertyName">'+escapeHTML(name)+'</td>';
+    output += '<td valign="top" class="propertyName">'+escapeHTML(generatePath(path))+'</td>';
     output += '<td valign="top" class="propertyValue '+escapeHTML(realType)+(interestingProp?' interesting':'')+'">';
     try {
       output += '<code><pre>'+escapeHTML(obj)+'</pre></code>';
