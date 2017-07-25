@@ -268,7 +268,7 @@ window.inspector = function(){
       li.appendChild(document.createTextNode('Interesting props?'));
     }
     li.appendChild(document.createTextNode(' '));
-    if(realType === 'object') {
+    if(realType === 'object' || isRoot) {
       regexInput = document.createElement('input');
       regexInput.placeholder = 'Filter by regex';
       regexInput.onchange = function(){
@@ -276,7 +276,7 @@ window.inspector = function(){
       };
       li.appendChild(regexInput);
     }
-    if(realType === 'object') {
+    if(realType === 'object'  || isRoot) {
       li.appendChild(document.createTextNode(' '));
       jsInput = document.createElement('input');
       jsInput.placeholder = 'JS: obj[prop]("args")';
@@ -285,7 +285,7 @@ window.inspector = function(){
       };
       li.appendChild(jsInput);
     }
-    if(realType === 'object') {
+    if(realType === 'object' || isRoot) {
       li.appendChild(document.createTextNode(' '));
       objectType = document.createElement('select');
       option = document.createElement('option');
