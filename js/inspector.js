@@ -305,7 +305,7 @@ window.inspector = function(){
       li.appendChild(objectType);
     }
     li.enumerate = function(interestingOnly, filter, js, selectedType) {
-        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type;
+        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, ownPropertiesLookup = {};
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
         }
@@ -365,6 +365,7 @@ window.inspector = function(){
             descriptors = Object.getOwnPropertyDescriptors(this.object);
             for(i in descriptors) {
               props.push(i);
+              ownPropertiesLookup['_check_'+i] = 1;
             }
           }
         } catch(e){}
@@ -412,7 +413,7 @@ window.inspector = function(){
             continue;
           }
           try {
-            if(typeof obj[props[i]] === 'undefined') {
+            if(typeof obj[props[i]] === 'undefined' && !ownPropertiesLookup['_check_'+props[i]]) {
               continue;
             }
           } catch(e){
