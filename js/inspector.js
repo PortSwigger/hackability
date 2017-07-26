@@ -321,7 +321,7 @@ window.inspector = function(){
       li.appendChild(objectType);
     }
     li.enumerate = function(interestingOnly, filter, js, selectedType) {
-        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type;
+        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, forInProperties = {};
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
         }
@@ -387,6 +387,7 @@ window.inspector = function(){
         try {
           for(i in this.object) {
             props.push(i);
+            forInProperties['_check_'+i] = 1;
           }
         } catch(e){}
         if(interestingOnly) {
@@ -423,12 +424,17 @@ window.inspector = function(){
             interestingProps = interestingProps.sort();
             props = interestingProps.concat(props);
         }
+        if(props.filter) {
+          props = props.filter(function(elem, index, self) {
+              return index === self.indexOf(elem);
+          })
+        }
         for(i=0;i<props.length;i++) {
           if(checkProp['_check_'+props[i]]){
             continue;
           }
           try {
-            if(typeof obj[props[i]] === 'undefined') {
+            if(typeof obj[props[i]] === 'undefined' && !forInProperties['_check_'+props[i]]) {
               continue;
             }
           } catch(e){
