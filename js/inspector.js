@@ -210,7 +210,7 @@ window.inspector = function(){
           if(descriptor.value) {
             try {
               if(descriptor.value.constructor.constructor === descriptor.value.constructor && descriptor.value.constructor('return document.domain')() !== document.domain)
-              output += '<tr><td>Value constructor</td><td><div class="error" style=width:auto>X-domain constructor found!</div></td></tr>';
+              output += '<tr><td>Value constructor</td><td><div class="error">X-domain constructor found!</div></td></tr>';
             } catch(e){}
           }
           if(descriptor.set) {
@@ -220,7 +220,7 @@ window.inspector = function(){
             output += '<tr><td>Getter</td><td>'+escapeHTML(descriptor.get)+'</td></tr>';
             try {
               if(descriptor.get.constructor === descriptor.get.constructor.constructor && descriptor.get.constructor('return document.domain')() !== document.domain)
-              output += '<tr><td>Getter constructor</td><td><div class="error" style=width:auto>X-domain constructor found!</div></td></tr>';
+              output += '<tr><td>Getter constructor</td><td><div class="error">X-domain constructor found!</div></td></tr>';
             } catch(e){}
             try {
               output += '<tr><td>Calling getter</td><td>'+escapeHTML(descriptor.get.call(parent))+'</td></tr>';
@@ -241,7 +241,7 @@ window.inspector = function(){
             domain = domain.replace(/\s+$/,'');
             domain = domain.replace(/^\s+/,'');
             if(domain !== location.origin) {
-              output += '<div class="error" style=width:auto>Leaking x-domain origin from iframe: '+escapeHTML(domain)+'</div>';
+              output += '<div class="error">Leaking x-domain origin from iframe: '+escapeHTML(domain)+'</div>';
             }
           });
         } catch(e){}
@@ -253,7 +253,7 @@ window.inspector = function(){
     try {
       if(obj.constructor && obj.constructor.constructor && obj.constructor.constructor === obj.constructor.constructor.constructor && obj.constructor.constructor('return document.domain')() !== document.domain) {
         alert('X-domain constructor found!');
-        output += '<div class="error" style=width:auto>X-domain constructor found!</div>';
+        output += '<div class="error">X-domain constructor found!</div>';
       }
     } catch(e){}
     output += '</td>';
