@@ -547,7 +547,15 @@ window.inspector = function(){
     domObjects.output.insertBefore(div, domObjects.output.firstChild);
   }
   function createError(msg) {
-    var div = document.createElement('div');
+    var div = document.createElement('div'), a = document.createElement('a');
+    a.href="#";
+    a.onclick = function(){
+      this.parentNode.parentNode.removeChild(this.parentNode);
+      return false;
+    };
+    a.className = 'deleteOutput';
+    a.innerHTML = '&#10060;';
+    div.appendChild(a);
     div.appendChild(document.createTextNode(String(msg)));
     div.className = 'error';
     domObjects.output.insertBefore(div, domObjects.output.firstChild);
