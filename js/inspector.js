@@ -243,7 +243,11 @@ window.inspector = function(){
       } catch(e){}
     }
     if(isWindow(obj)) {
-      output += '<div class="box">Is a window object</div>';
+      if(isCrossDomainWindow(obj)) {
+        output += '<div class="box">Is a x-domain window object</div>';
+      } else {
+        output += '<div class="box">Is a window object</div>';
+      }
       try {
         test = obj.x;
       } catch(e){
