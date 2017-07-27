@@ -106,7 +106,7 @@ window.inspector = function(){
   }
   function isWindow(obj) {
     try {
-      return obj.window === obj;
+      return obj && obj.window === obj;
     } catch(e){
       return false;
     }
