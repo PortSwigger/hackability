@@ -274,12 +274,12 @@ window.inspector = function(){
           this.innerHTML='&#9660;';
         } else {
           this.parentNode.className='off';
-          this.innerHTML='&#9654;';
+          this.innerHTML='&#x25b7;';
         }
         location.hash = generatePath(path);
         return false;
     };
-    anchor.innerHTML = isRoot ? '&#9660;' : '&#9654;';
+    anchor.innerHTML = isRoot ? '&#9660;' : '&#x25b7;';
     li.appendChild(anchor);
     if(isWindow(obj)) {
       checkbox = document.createElement('input');
