@@ -507,9 +507,19 @@ window.inspector = function(){
     return enumerator;
   }
   function createOutput(output, isHTML, name) {
-    var div = document.createElement('div');
+    var div = document.createElement('div'), htmlDiv, a = document.createElement('a');
+    a.href="#";
+    a.onclick = function(){
+      this.parentNode.parentNode.removeChild(this.parentNode);
+      return false;
+    };
+    a.className = 'deleteOutput';
+    a.innerHTML = '&#10060;';
+    div.appendChild(a);
     if(isHTML) {
-      div.innerHTML = output;
+      htmlDiv = document.createElement('div');
+      htmlDiv.innerHTML = output;
+      div.appendChild(htmlDiv);
     } else {
       if(name === false) {
         div.appendChild(document.createTextNode(output));
