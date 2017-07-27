@@ -171,6 +171,13 @@ window.inspector = function(){
       domObjects.output.removeChild(domObjects.output.firstChild);
     }
   }
+  function ieOnChangeFix(e){
+    var event = window.event ? window.event : e;
+    if(event.keyCode === 13) {
+      this.blur();
+      this.focus();
+    }
+  }
   function createEnumerator(obj, isRoot, name, path, parent, interestingProp) {
     var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, objectType, option, regexInput, jsInput,
         ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a'), test, i;
@@ -290,6 +297,7 @@ window.inspector = function(){
       regexInput.onchange = function(){
           li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, this.value, jsInput.value, objectType.options[objectType.selectedIndex].value);
       };
+      regexInput.onkeyup = ieOnChangeFix;
       li.appendChild(regexInput);
     }
     if(realType === 'object'  || isRoot) {
@@ -299,6 +307,7 @@ window.inspector = function(){
       jsInput.onchange = function(){
         li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, regexInput.value, this.value, objectType.options[objectType.selectedIndex].value);
       };
+      jsInput.onkeyup = ieOnChangeFix;
       li.appendChild(jsInput);
     }
     if(realType === 'object' || isRoot) {
