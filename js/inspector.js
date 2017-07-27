@@ -4,6 +4,7 @@ window.inspector = function(){
   result, domObjects, historyPos = 0, types = ['array','nan','null','function','object','string','boolean','symbol','undefined','number','window','function constructor','document','dom node'].sort();
   function inspect(object, isHTML, resultOnly) {
      var errorMessage;
+      domObjects.input.value = '';
       if(/^</.test(object)) {
          isHTML = true;
       }
@@ -30,7 +31,6 @@ window.inspector = function(){
         createError(errorMessage);
         createHistory(object);
     }
-    domObjects.input.value = '';
   }
   function createHistory(object) {
     var history;
