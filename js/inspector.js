@@ -491,7 +491,7 @@ window.inspector = function(){
           }
           li = document.createElement('li');
           try {
-            li.appendChild(createEnumerator(this.object[props[i]], false, props[i], path.concat([props[i]]), this.object, interestingPropsLookup['_check_'+props[i]] ? true : false));
+            li.appendChild(createEnumerator(this.object[props[i]], false, props[i], path.concat([props[i]]), this.object, interestingPropsLookup['_check_'+props[i]] && isWindow(this.object) ? true : false));
             ul.appendChild(li);
           } catch(e){}
           checkProp['_check_'+props[i]] = 1;
