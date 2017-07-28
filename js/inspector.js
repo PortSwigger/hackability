@@ -216,26 +216,26 @@ window.inspector = function(){
       try {
         descriptor = Object.getOwnPropertyDescriptor(parent, name);
         if(descriptor) {
-          output += '<div class="box"><table><tr><td>Writable</td><td>'+escapeHTML(descriptor.writable)+'</td></tr>';
-          output += '<tr><td>Configurable</td><td>'+escapeHTML(descriptor.configurable)+'</td></tr>';
-          output += '<tr><td>Enumerable</td><td>'+escapeHTML(descriptor.enumerable)+'</td></tr>';
+          output += '<div class="box"><table><tr><td class="descriptorName">Writable</td><td class="descriptorValue">'+escapeHTML(descriptor.writable)+'</td></tr>';
+          output += '<tr><td class="descriptorName">Configurable</td><td class="descriptorValue">'+escapeHTML(descriptor.configurable)+'</td></tr>';
+          output += '<tr><td class="descriptorName">Enumerable</td><td class="descriptorValue">'+escapeHTML(descriptor.enumerable)+'</td></tr>';
           if(descriptor.value) {
             try {
               if(descriptor.value.constructor.constructor === descriptor.value.constructor && descriptor.value.constructor('return document.domain')() !== document.domain)
-              output += '<tr><td>Value constructor</td><td><div class="error">X-domain constructor found!</div></td></tr>';
+              output += '<tr><td class="descriptorName">Value constructor</td><td class="descriptorValue"><div class="error">X-domain constructor found!</div></td></tr>';
             } catch(e){}
           }
           if(descriptor.set) {
-            output += '<tr><td>Setter</td><td>'+escapeHTML(descriptor.set)+'</td></tr>';
+            output += '<tr><td class="descriptorName">Setter</td><td class="descriptorValue">'+escapeHTML(descriptor.set)+'</td></tr>';
           }
           if(descriptor.get) {
-            output += '<tr><td>Getter</td><td>'+escapeHTML(descriptor.get)+'</td></tr>';
+            output += '<tr><td class="descriptorName">Getter</td><td class="descriptorValue">'+escapeHTML(descriptor.get)+'</td></tr>';
             try {
               if(descriptor.get.constructor === descriptor.get.constructor.constructor && descriptor.get.constructor('return document.domain')() !== document.domain)
-              output += '<tr><td>Getter constructor</td><td><div class="error">X-domain constructor found!</div></td></tr>';
+              output += '<tr><td class="descriptorName">Getter constructor</td><td class="descriptorValue"><div class="error">X-domain constructor found!</div></td></tr>';
             } catch(e){}
             try {
-              output += '<tr><td>Calling getter</td><td>'+escapeHTML(descriptor.get.call(parent))+'</td></tr>';
+              output += '<tr><td class="descriptorName">Calling getter</td><td class="descriptorValue">'+escapeHTML(descriptor.get.call(parent))+'</td></tr>';
             } catch(e){}
           }
           output += '</table></div>';
