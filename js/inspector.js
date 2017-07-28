@@ -125,7 +125,7 @@ window.inspector = function(){
   }
   function isJavaBridge(obj) {
     try {
-      return obj && obj.getClass().forName;
+      return obj && obj.getClass && obj.getClass().forName;
     } catch(e){
       return false;
     }
@@ -272,6 +272,13 @@ window.inspector = function(){
     }
     if(isFunctionConstructor(obj)) {
       output += '<div class="box">Is a function constructor</div>';
+    }
+    if(isJavaBridge(obj)) {
+      output += '<div class="box">Is a Java bridge</div>';
+      try {
+        obj.getClass().forName("java.net.Socket").newInstance();
+        output += '<div class="error">Exploitable Java bridge found</div>';
+      } catch(e){}
     }
     try {
       if(obj.constructor && obj.constructor.constructor && obj.constructor.constructor === obj.constructor.constructor.constructor && obj.constructor.constructor('return document.domain')() !== document.domain) {
