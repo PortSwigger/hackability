@@ -131,13 +131,21 @@ window.inspector = function(){
     }
   }
   function isDocument(obj) {
-    return obj && typeof obj === 'object' && obj.ownerDocument === null;
+    try {
+      return obj && typeof obj === 'object' && obj.ownerDocument === null;
+    } catch(e){
+      return false;
+    }
   }
   function isDomNode(obj) {
-    var doc = obj.ownerDocument;
-    if(isDocument(doc)) {
-      return true;
-    } else {
+    try {
+      var doc = obj.ownerDocument;
+      if(isDocument(doc)) {
+        return true;
+      } else {
+        return false;
+      }
+    } catch(e){
       return false;
     }
   }
@@ -149,7 +157,11 @@ window.inspector = function(){
     }
   }
   function isObjectConstructor(obj) {
-    return!!(obj&&obj.__proto__&&obj.__proto__.__proto__&&obj===obj.__proto__.__proto__.constructor);
+    try {
+      return!!(obj&&obj.__proto__&&obj.__proto__.__proto__&&obj===obj.__proto__.__proto__.constructor);
+    } catch(e){
+      return false;
+    }
   }
   function jsEscapeProperty(str) {
     str = str + '';
