@@ -536,6 +536,12 @@ window.inspector = function(){
           } catch(e){}
           checkProp['_check_'+props[i]] = 1;
         }
+        if(!ul.childNodes.length) {
+          li = document.createElement('li');
+          li.className = "noPropertiesFound";
+          li.appendChild(document.createTextNode('No properties found.'));
+          ul.appendChild(li);
+        }
         this.appendChild(ul);
         this.enumerated=true;
     };
