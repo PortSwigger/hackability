@@ -84,6 +84,12 @@ window.inspector = function(){
       localStorage.setItem('history',JSON.stringify([]));
     }
   }
+  function sortByType(a,b) {
+    if (isNaN(a) || isNaN(b)) {
+      return a > b ? 1 : -1;
+    }
+    return a - b;
+  }
   function getRealType(obj) {
     try {
       if((Array.isArray && Array.isArray(obj)) || (obj && typeof obj.length === 'number' && Object.prototype.toString.call(obj) === '[object Array]')) {
@@ -478,9 +484,9 @@ window.inspector = function(){
             }
           }
         }
-        props = props.sort();
+        props = props.sort(sortByType);
         if(interestingProps.length) {
-            interestingProps = interestingProps.sort();
+            interestingProps = interestingProps.sort(sortByType);
             props = interestingProps.concat(props);
         }
         if(props.filter) {
