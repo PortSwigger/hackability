@@ -279,22 +279,22 @@ window.inspector = function(){
             output += '<div class="error">Can set properties on x-domain window</div>';
           }
         } catch(e){}
+        try {
+          test = obj.readPropertyTest;
+        } catch(e){
+          try {
+            e.toString().replace(/https?:\/\/[^\s'"]+/gi,function(domain){
+              domain = domain.replace(/[.]+$/,'');
+              domain = domain.replace(/\s+$/,'');
+              domain = domain.replace(/^\s+/,'');
+              if(domain !== location.origin) {
+                output += '<div class="error">Leaking x-domain origin from iframe: '+escapeHTML(domain)+'</div>';
+              }
+            });
+          } catch(e){}
+        }
       } else {
         output += '<div class="box">Is a window object</div>';
-      }
-      try {
-        test = obj.readPropertyTest;
-      } catch(e){
-        try {
-          e.toString().replace(/https?:\/\/[^\s'"]+/gi,function(domain){
-            domain = domain.replace(/[.]+$/,'');
-            domain = domain.replace(/\s+$/,'');
-            domain = domain.replace(/^\s+/,'');
-            if(domain !== location.origin) {
-              output += '<div class="error">Leaking x-domain origin from iframe: '+escapeHTML(domain)+'</div>';
-            }
-          });
-        } catch(e){}
       }
     }
     if(isFunctionConstructor(obj)) {
