@@ -492,7 +492,7 @@ window.inspector = function(){
         if(props.filter) {
           props = props.filter(function(elem, index, self) {
               return index === self.indexOf(elem);
-          })
+          });
         }
         for(i=0;i<props.length;i++) {
           if(checkProp['_check_'+props[i]]){
