@@ -123,7 +123,7 @@ window.inspector = function(){
       return false;
     }
     try {
-      read = obj.location+'';
+      read = obj.location.toString();
       return false
     } catch(e){
       return true;
@@ -273,11 +273,17 @@ window.inspector = function(){
     if(isWindow(obj)) {
       if(isCrossDomainWindow(obj)) {
         output += '<div class="box">Is a x-domain window object</div>';
+        try {
+          obj.setPropertyTest = 'test';
+          if(obj.setPropertyTest === 'test') {
+            output += '<div class="error">Can set properties on x-domain window</div>';
+          }
+        } catch(e){}
       } else {
         output += '<div class="box">Is a window object</div>';
       }
       try {
-        test = obj.x;
+        test = obj.readPropertyTest;
       } catch(e){
         try {
           e.toString().replace(/https?:\/\/[^\s'"]+/gi,function(domain){
