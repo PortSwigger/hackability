@@ -112,7 +112,7 @@ window.inspector = function(){
   }
   function isWindow(obj) {
     try {
-      return obj && obj.window === obj;
+      return!!(obj && obj.window === obj);
     } catch(e){
       return false;
     }
@@ -131,14 +131,14 @@ window.inspector = function(){
   }
   function isJavaBridge(obj) {
     try {
-      return obj && obj.getClass && obj.hashCode;
+      return!!(obj && obj.getClass && obj.hashCode);
     } catch(e){
       return false;
     }
   }
   function isDocument(obj) {
     try {
-      return obj && typeof obj === 'object' && obj.ownerDocument === null;
+      return!!(obj && typeof obj === 'object' && obj.ownerDocument === null);
     } catch(e){
       return false;
     }
