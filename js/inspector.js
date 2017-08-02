@@ -703,7 +703,6 @@ window.inspector = function(){
       inspect: inspect,
       setInput: setInput,
       setDomObjects: setDomObjects,
-      setCallbacks: setCallbacks,
       clear: clear,
       clearHistory: clearHistory,
       getParams: getParams
