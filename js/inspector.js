@@ -210,6 +210,7 @@ window.inspector = function(){
     while(domObjects.output.firstChild) {
       domObjects.output.removeChild(domObjects.output.firstChild);
     }
+    domObjects.input.value = '';
   }
   function ieOnChangeFix(e){
     var event = window.event ? window.event : e;
@@ -224,7 +225,7 @@ window.inspector = function(){
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
     output += '<tr>';
-    output += '<td valign="top" class="propertyName"><a href=# onclick="inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">'+escapeHTML(generatePath(path))+'</a></td>';
+    output += '<td valign="top" class="propertyName"><a href="#" onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1].firstChild.firstChild.click();return false;">'+escapeHTML(generatePath(path))+'</a></td>';
     output += '<td valign="top" class="propertyValue '+escapeHTML(realType)+(interestingProp?' interesting':'')+'">';
     try {
       output += '<code><pre>'+escapeHTML(obj)+'</pre></code>';
@@ -318,6 +319,7 @@ window.inspector = function(){
         output += '<div class="error">X-domain constructor found!</div>';
       }
     } catch(e){}
+    output += '<div class="box"><a href=# onclick="inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></td>';
     output += '</td>';
     output += '</tr>';
     output += '</table>';
@@ -338,7 +340,11 @@ window.inspector = function(){
           this.parentNode.className='off';
           this.innerHTML='&#x25b7;';
         }
-        location.hash = generatePath(path);
+        if(history.pushState) {
+          history.pushState({},'', '?input='+encodeURIComponent(path));
+        } else {
+          location.hash = generatePath(path);
+        }
         return false;
     };
     anchor.innerHTML = isRoot ? '&#9660;' : '&#x25b7;';
