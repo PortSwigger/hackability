@@ -610,7 +610,7 @@ window.inspector = function(){
     enumerator.appendChild(ul);
     if(isRoot) {
       if(callbacks.sendRootHTML) {
-        callbacks.sendRootHTML(enumerator.innerHTML);
+        callbacks.sendRootHTML(generatePath(path), enumerator.innerHTML);
       }
     }
     return enumerator;
