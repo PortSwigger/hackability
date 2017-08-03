@@ -163,9 +163,7 @@ pre {
 </head>
 <body>
 <form autocomplete="off" onsubmit="return false;">
-  <div>
     <input type="text" id="input" autofocus placeholder="Shortcuts:RETURN (Eval js), CTRL+RETURN (Exec HTML), SHIFT+RETURN (Eval but don't inspect), CTRL+Backspace (Clear), CTRL+SHIFT+Backspace (Clear history)" />
-  </div>
 </form>
 <div id="output"></div>
 <script>
@@ -173,6 +171,15 @@ pre {
   var params = inspector.getParams(location.search.slice(1));
   inspector.setDomObjects({input: document.getElementById('input'), output: document.getElementById('output')});
   if(location.search.length) {
+    if(params.blind) {
+      inspector.setCallbacks({sendRootHTML: function(html){
+        var xhr = new XMLHttpRequest();
+        html = '<meta charset="UTF-8" /><style>'+document.getElementsByTagName('style')[0].innerHTML+'</style><div class="output"><div>'+html+'</div></div>';
+        xhr.open('POST', 'save.php', true);
+        xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+        xhr.send('html='+encodeURIComponent(html));
+      }});
+    }
     if(params.html) {
       inspector.inspect(params.html, true);
     }
