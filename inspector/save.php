@@ -1,5 +1,5 @@
 <?php
-require("inspectorLogger.class.php");
+require("../inc/inspectorLogger.class.php");
 $objName = isset($_POST['objName']) ? $_POST['objName'] : '';
 $html = isset($_POST['html']) ? $_POST['html'] : '';
 $logger = new InspectorLogger();

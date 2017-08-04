@@ -1,17 +1,12 @@
 <?php
-$pathInfo = pathinfo($_SERVER['PHP_SELF']);
-if($pathInfo['dirname'] !== '/') {
-  $path = $pathInfo['dirname'] . "/";
-} else {
-  $path = '/';
-}
+require('inc/functions.inc.php');
 ?>
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
-<link href="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/css-link.css?info_css_link" rel="StyleSheet" />
-<style>@import 'http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/css-import.css?info_css_import';</style>
-<script src="inspector/js/inspector.js"></script>
+<link href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/css-link.css?info_css_link" rel="StyleSheet" />
+<style>@import '<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/css-import.css?info_css_import';</style>
+<script src="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>inspector/js/inspector.js"></script>
 <script>
 window.Hackability = {};
 </script>
@@ -94,7 +89,7 @@ Hackability.makeRequest = function(type) {
 	} catch(e){}
 }
 Hackability.generateRequestUrl = function(type) {
-	return "http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?"+type+'&'+(+new Date);
+	return "<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tick.html?"+type+'&'+(+new Date);
 }
 </script>
 </head>
@@ -132,21 +127,21 @@ Hackability.generateRequestUrl = function(type) {
     			<tr>
     				<td class="danger" width=50 height=51 valign=top><span style="color:red">No</span></td><td valign=top>Javascript enabled?</td>
     			</tr>
-    			<link href="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?info_no_javascript&<?php echo time();?>" rel="StyleSheet" />
+    			<link href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tick.html?info_no_javascript&<?php echo time();?>" rel="StyleSheet" />
     			</noscript>
     			<script>
     			document.write('<tr><td class="info" width=50 height=51 valign=top><span style="color:green">Yes</span></td><td valign=top>JavaScript enabled</td></tr>');
     			Hackability.makeRequest("info_javascript");
     			</script>
     			<tr>
-    			    <td width=50 height=51 valign=top><img src="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.gif?info_img&<?php echo time();?>" alt="No" style="color:red;" /></td>
+    			    <td width=50 height=51 valign=top><img src="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>img/tick.gif?info_img&<?php echo time();?>" alt="No" style="color:red;" /></td>
     				<td valign=top>Images enabled?</td>
     			</tr>
     			<!--[if IE]>
     			<tr><td class="info" width=50 height=51 valign=top><span style="color:green">Yes</span></td><td valign=top>Conditional comments</td></tr>
     			<![endif]-->
     			<tr>
-    			    <td width=50 height=51 valign=top><iframe width="51" height="50" src="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?info_iframe&<?php echo time();?>" frameborder="0"><span style="color:red">No</span></iframe></td>
+    			    <td width=50 height=51 valign=top><iframe width="51" height="50" src="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tick.html?info_iframe&<?php echo time();?>" frameborder="0"><span style="color:red">No</span></iframe></td>
     				<td valign=top>Iframes render?</td>
     			</tr>
     			<tr>
@@ -154,37 +149,37 @@ Hackability.generateRequestUrl = function(type) {
     				<td valign=top>Iframe srcdoc?</td>
     			</tr>
     			<tr>
-    			    <td width=50 height=51 valign=top><object width="51" height="50" type="text/html" data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?info_object&<?php echo time();?>" style="border:none;"><span style="color:red">No</span></object></td>
+    			    <td width=50 height=51 valign=top><object width="51" height="50" type="text/html" data="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tick.html?info_object&<?php echo time();?>" style="border:none;"><span style="color:red">No</span></object></td>
     				<td valign=top>Objects render?</td>
     			</tr>
     			<tr>
-    			    <td width=50 height=51 valign=top><embed width="51" height="50" type="text/html" src="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?info_embed&<?php echo time();?>" style="border:0" border="0"></embed><noembed></noembed></td>
+    			    <td width=50 height=51 valign=top><embed width="51" height="50" type="text/html" src="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tick.html?info_embed&<?php echo time();?>" style="border:0" border="0"></embed><noembed></noembed></td>
     				<td valign=top>Embeds render?</td>
     			</tr>
     			<tr>
-    				<td width=50 height=51 valign=top><object data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?info_activex&<?php echo time();?>" width=51 height=50 classid="clsid:25336920-03F9-11cf-8FD0-00AA00686F13">
+    				<td width=50 height=51 valign=top><object data="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tick.html?info_activex&<?php echo time();?>" width=51 height=50 classid="clsid:25336920-03F9-11cf-8FD0-00AA00686F13">
       				<span style="color:red">No</span>
       				</object>
   				</td>
     				<td valign=top>ActiveX</td>
     			</tr>
     			<tr>
-    				<td width=50 height=51 valign=top><object data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.swf?info_flash&<?php echo time();?>" width=11 height=10 type="application/x-shockwave-flash">
-      				<param name="movie" value="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.swf?info_flash&<?php echo time();?>" />
+    				<td width=50 height=51 valign=top><object data="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>img/tick.swf?info_flash&<?php echo time();?>" width=11 height=10 type="application/x-shockwave-flash">
+      				<param name="movie" value="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>img/tick.swf?info_flash&<?php echo time();?>" />
       				<span style="color:red">No</span>
       				</object>
   				</td>
     				<td valign=top>Flash</td>
     			</tr>
     			<tr>
-    				<td width=50 height=51 valign=top><object data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.pdf?info_pdf&<?php echo time();?>" width=151 height=150 type="application/pdf">
+    				<td width=50 height=51 valign=top><object data="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>img/tick.pdf?info_pdf&<?php echo time();?>" width=151 height=150 type="application/pdf">
       				<span style="color:red">No</span>
       				</object>
   				</td>
     				<td valign=top>PDF</td>
     			</tr>
     			<tr>
-    				<td width=50 height=51 valign=top><applet width=151 height=150 codebase="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/" code="tick.class" width=151 height=150>
+    				<td width=50 height=51 valign=top><applet width=151 height=150 codebase="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>img/" code="tick.class" width=151 height=150>
       				<span style="color:red">No</span>
       				</applet>
   				</td>
@@ -264,8 +259,12 @@ Hackability.generateRow = function(status, text, html) {
 </script>
 <script>
 !function(){
+  function escapeHTML(str) {
+    str = str + '';
+    return str.replace(/[<>'"\\&]/gi,function(c){return'&#'+c.charCodeAt(0)+';';});
+  }
 	function jsEnvironmentCheck() {
-var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']), foundProps = Object.getOwnPropertyNames(window), i, j, diff = [], found;
+var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']), foundProps = Object.getOwnPropertyNames(window), i, j, diff = [], found, html, links;
 		for(i=0;i<foundProps.length;i++) {
 			found = false;
 			for(j=0;j<props.length;j++) {
@@ -280,9 +279,18 @@ var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']),
 		}
 
 		if(diff.length) {
+      html = 'JavaScript environment difference:';
+      links = [];
 			Hackability.makeRequest("exploit_js_environment_difference&props="+diff.join(','));
-			Hackability.generateRow(true, "JavaScript environment difference:"+diff.join(','));
-		} else {
+      if(diff.length) {
+          for(i=0;i<diff.length;i++) {
+            links.push('<a href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>inspector/index.php?input='+escapeHTML(diff[i])+'">'+escapeHTML(diff[i])+'</a>');
+          }
+          Hackability.generateRow(true, "", "JavaScript environment difference:"+links.join(','));
+      } else {
+			     Hackability.generateRow(true, "JavaScript environment difference:"+diff.join(','));
+      }
+    } else {
 			Hackability.makeRequest("info_js_environment_difference&props=No difference");
 			Hackability.generateRow(false, "JavaScript environment difference: none");
 		}
@@ -725,32 +733,32 @@ Hackability.runExploits = function() {
 	});
   q.push(function(){
     try {
-      Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=http&os=windows','Iframe security filesystem windows redirect bypassed','exploit_local_file_iframe_redirect_windows');
+      Hackability.createIframe('<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/redirect.php?redirectType=http&os=windows','Iframe security filesystem windows redirect bypassed','exploit_local_file_iframe_redirect_windows');
     } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
-      Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=http&os=linux','Iframe security filesystem linux redirect bypassed','exploit_local_file_iframe_redirect_linux');
+      Hackability.createIframe('<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/redirect.php?redirectType=http&os=linux','Iframe security filesystem linux redirect bypassed','exploit_local_file_iframe_redirect_linux');
     } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
-      Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=meta&os=windows','Iframe security filesystem windows meta redirect bypassed','exploit_local_file_iframe_redirect_windows');
+      Hackability.createIframe('<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/redirect.php?redirectType=meta&os=windows','Iframe security filesystem windows meta redirect bypassed','exploit_local_file_iframe_redirect_windows');
     } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
-      Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=meta&os=linux','Iframe security filesystem linux meta redirect bypassed','exploit_local_file_iframe_redirect_linux');
+      Hackability.createIframe('<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/redirect.php?redirectType=meta&os=linux','Iframe security filesystem linux meta redirect bypassed','exploit_local_file_iframe_redirect_linux');
     } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
-      Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=javascript&os=windows','Iframe security filesystem windows js redirect bypassed','exploit_local_file_iframe_redirect_windows');
+      Hackability.createIframe('<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/redirect.php?redirectType=javascript&os=windows','Iframe security filesystem windows js redirect bypassed','exploit_local_file_iframe_redirect_windows');
     } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
-      Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=javascript&os=linux','Iframe security filesystem linux js redirect bypassed','exploit_local_file_iframe_redirect_linux');
+      Hackability.createIframe('<?php echo htmlentities(getUrl(), ENT_QUOTES)?>tests/redirect.php?redirectType=javascript&os=linux','Iframe security filesystem linux js redirect bypassed','exploit_local_file_iframe_redirect_linux');
     } catch(e){console.log(e);}
   });
   setTimeout(function f(){

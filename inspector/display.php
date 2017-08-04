@@ -1,4 +1,5 @@
 <?php
+require('../inc/functions.inc.php');
 $id = isset($_GET['id']) ? (int) $_GET['id'] : 0;
 header("Content-Security-Policy: sandbox; default-src 'none';style-src 'self'");
 ?>
@@ -7,10 +8,10 @@ header("Content-Security-Policy: sandbox; default-src 'none';style-src 'self'");
 <head>
 <meta charset="UTF-8" />
 <title>Inspector</title>
-<link href="styles.css" rel="stylesheet" />
+<link href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>styles.css" rel="stylesheet" />
 <body>
 <?php
-require("inspectorLogger.class.php");
+require("../inc/inspectorLogger.class.php");
 $logger = new InspectorLogger();
 $logger->init();
 if($logger) {

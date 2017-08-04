@@ -1,5 +1,6 @@
 <?php
-require('inspectorLogger.class.php');
+require('../inc/functions.inc.php');
+require('../inc/inspectorLogger.class.php');
 $logger = new InspectorLogger();
 $logger->init();
 ?>
@@ -8,8 +9,8 @@ $logger->init();
 <head>
 <meta charset="UTF-8" />
 <title>Inspector</title>
-<script src="js/inspector.js"></script>
-<link href="styles.css" rel="stylesheet" />
+<script src="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>js/inspector.js"></script>
+<link href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>styles.css" rel="stylesheet" />
 </head>
 <body>
 <form autocomplete="off" onsubmit="return false;">
@@ -47,11 +48,11 @@ $logger->init();
 </div>
 <script>
 !function(){
-  var params = inspector.getParams(location.search.slice(1));
-  inspector.setDomObjects({input: document.getElementById('input'), output: document.getElementById('output'), usage: document.getElementById('usage')});
+  var params = Inspector.getParams(location.search.slice(1));
+  Inspector.setDomObjects({input: document.getElementById('input'), output: document.getElementById('output'), usage: document.getElementById('usage')});
   if(location.search.length) {
     if(params.blind) {
-      inspector.setCallbacks({sendRootHTML: function(objName, html){
+      Inspector.setCallbacks({sendRootHTML: function(objName, html){
         var xhr = new XMLHttpRequest();
         html = '<div class="output"><div>'+html+'</div></div>';
         xhr.open('POST', 'save.php', true);
@@ -60,15 +61,15 @@ $logger->init();
       }});
     }
     if(params.html) {
-      inspector.inspect(params.html, true);
+      Inspector.inspect(params.html, true);
     }
     window.onload = function(){
       if(typeof params.input === 'string' && params.input.length) {
-        inspector.inspect(params.input, false, false, params);
+        Inspector.inspect(params.input, false, false, params);
       }
     };
   } else if(location.hash.length) {
-    inspector.inspect(location.hash.slice(1));
+    Inspector.inspect(location.hash.slice(1));
   }
 }();
 </script>
