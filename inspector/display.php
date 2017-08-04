@@ -7,6 +7,7 @@ header("Content-Security-Policy: sandbox; default-src 'none';style-src 'self'");
 <html>
 <head>
 <meta charset="UTF-8" />
+<meta name="robots" content="noindex" />
 <title>Inspector</title>
 <link href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>styles.css" rel="stylesheet" />
 <body>
