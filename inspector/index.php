@@ -1,3 +1,8 @@
+<?php
+require('inspectorLogger.class.php');
+$logger = new InspectorLogger();
+$logger->init();
+?>
 <!doctype HTML>
 <html>
 <head>
