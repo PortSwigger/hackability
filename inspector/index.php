@@ -23,7 +23,7 @@ $logger->init();
     <li>Pass <a href="index.php?input=window">input</a> to the inspector</li>
     <li>Only show <a href="index.php?input=window&interesting=true">interesting</a> properties</li>
     <li>Filter properties by <a href="index.php?input=window&regex=__$">regex</a></li>
-    <li>Execute <a href="index.php?input=window&js=obj[prop](prop)">js</a> on every property
+    <li>Execute <a href="index.php?input=window&js=console.log(prop);obj[prop](prop)">js</a> on every property
         <ul>
           <li>obj contains a reference to current enumerated object.</li>
           <li>prop contains a string of the property name</li>
@@ -63,11 +63,19 @@ $logger->init();
     if(params.html) {
       Inspector.inspect(params.html, true);
     }
-    window.onload = function(){
-      if(typeof params.input === 'string' && params.input.length) {
-        Inspector.inspect(params.input, false, false, params);
-      }
-    };
+    if(window.addEventListener) {
+  		window.addEventListener('load', function(){
+        if(typeof params.input === 'string' && params.input.length) {
+          Inspector.inspect(params.input, false, false, params);
+        }
+  		},false);
+  	} else if(window.attachEvent) {
+  		window.attachEvent('onload', function(){
+        if(typeof params.input === 'string' && params.input.length) {
+          Inspector.inspect(params.input, false, false, params);
+        }
+  		});
+  	}
   } else if(location.hash.length) {
     Inspector.inspect(location.hash.slice(1));
   }
