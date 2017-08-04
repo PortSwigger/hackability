@@ -166,3 +166,12 @@ pre {
   width:100%;
   table-layout: fixed;
 }
+#usage {
+  padding:10px;
+}
+#usage h1 {
+  margin:0;
+}
+#usage a:link, #usage a:visited {
+  color:red;
+}

@@ -4,6 +4,9 @@ window.inspector = function(){
   result, domObjects, callbacks = {}, historyPos = 0, types = ['array','NaN','null','function','object','string','boolean','symbol','undefined','number','window','function constructor','object constructor','document','dom node','x-domain window','java bridge'].sort();
   function inspect(object, isHTML, resultOnly, params) {
      var errorMessage;
+     if(domObjects.usage) {
+       domObjects.usage.innerHTML = '';
+     }
       domObjects.input.value = '';
       if(/^</.test(object)) {
          isHTML = true;
