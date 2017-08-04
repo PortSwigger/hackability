@@ -55,7 +55,7 @@ $logger->init();
       Inspector.setCallbacks({sendRootHTML: function(objName, html){
         var xhr = new XMLHttpRequest();
         html = '<div class="output"><div>'+html+'</div></div>';
-        xhr.open('POST', 'save.php', true);
+        xhr.open('POST', '<?php echo htmlentities(getUrl(), ENT_QUOTES)?>save.php', true);
         xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
         xhr.send('objName='+encodeURIComponent(objName)+'&html='+encodeURIComponent(html));
       }});
