@@ -1,5 +1,6 @@
 <?php
 require('inc/functions.inc.php');
+$blind = isset($_GET['blind']) ? (int) $_GET['blind'] : 0;
 ?>
 <html>
 <head>
@@ -297,15 +298,11 @@ var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']),
 	}
 	if(window.addEventListener) {
 		window.addEventListener('load', function(){
-			setTimeout(function() {
-				jsEnvironmentCheck();
-			},2000);
+			jsEnvironmentCheck();
 		},false);
 	} else if(window.attachEvent) {
 		window.attachEvent('onload', function(){
-			setTimeout(function() {
-				jsEnvironmentCheck();
-			},2000);
+			jsEnvironmentCheck();
 		});
 	}
 }();
@@ -403,23 +400,19 @@ var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']),
 	}
 	if(window.addEventListener) {
 		window.addEventListener('load', function(){
-			setTimeout(function(){
-				traverse(window, 0, 'window');
-				if(!foundConstructor) {
-					Hackability.makeRequest("info_no_java_bridge");
-					Hackability.generateRow(false, "Java Bridge does not exist");
-				}
-			},2000);
+			traverse(window, 0, 'window');
+			if(!foundConstructor) {
+				Hackability.makeRequest("info_no_java_bridge");
+				Hackability.generateRow(false, "Java Bridge does not exist");
+			}
 		},false);
 	} else if(window.attachEvent) {
 		window.attachEvent('onload', function(){
-			setTimeout(function(){
-				traverse(window, 0, 'window');
-				if(!foundConstructor) {
-					Hackability.makeRequest("info_no_java_bridge");
-					Hackability.generateRow(false, "Java Bridge does not exist");
-				}
-			},2000);
+			traverse(window, 0, 'window');
+			if(!foundConstructor) {
+				Hackability.makeRequest("info_no_java_bridge");
+				Hackability.generateRow(false, "Java Bridge does not exist");
+			}
 		});
 	}
 }();
@@ -772,21 +765,37 @@ Hackability.runExploits = function() {
 };
 </script>
 <script>
-if(window.addEventListener) {
-	window.addEventListener('load', function(){
-		setTimeout(function(){
-			Hackability.runExploits();
-      Hackability.print();
-		}, 5000);
-	}, false);
-} else if(window.attachEvent) {
-	window.attachEvent('onload', function(){
-		setTimeout(function(){
-			Hackability.runExploits();
-      Hackability.print();
-		}, 5000);
-	});
-}
+!function(){
+	function saveResults() {
+		var xhr = new XMLHttpRequest();
+		xhr.open('POST', '<?php echo htmlentities(getUrl(), ENT_QUOTES)?>inspector/save.php', true);
+		xhr.setRequestHeader('Content-Type','application/x-www-form-urlencoded');
+		xhr.send('objName='+encodeURIComponent('Hackability capability check')+'&html='+encodeURIComponent(document.querySelector('.javascriptTests').parentNode.innerHTML));
+	}
+	if(window.addEventListener) {
+		window.addEventListener('load', function(){
+			<?php if($blind){
+					echo 'saveResults();';
+			}
+			?>
+			setTimeout(function(){
+				Hackability.runExploits();
+	      Hackability.print();
+			}, 5000);
+		}, false);
+	} else if(window.attachEvent) {
+		window.attachEvent('onload', function(){
+			<?php if($blind){
+					echo 'saveResults();';
+			}
+			?>
+			setTimeout(function(){
+				Hackability.runExploits();
+	      Hackability.print();
+			}, 5000);
+		});
+	}
+}();
 </script>
 </body>
 </html>
