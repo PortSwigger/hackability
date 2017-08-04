@@ -14,30 +14,30 @@
 <div id="usage">
   <h1>Usage:</h1>
   <ul>
-    <li>Pass <a href="index.html?input=window">input</a> to the inspector</li>
-    <li>Only show <a href="index.html?input=window&interesting=true">interesting</a> properties</li>
-    <li>Filter properties by <a href="index.html?input=window&regex=__$">regex</a></li>
-    <li>Execute <a href="index.html?input=window&js=obj[prop](prop)">js</a> on every property
+    <li>Pass <a href="index.php?input=window">input</a> to the inspector</li>
+    <li>Only show <a href="index.php?input=window&interesting=true">interesting</a> properties</li>
+    <li>Filter properties by <a href="index.php?input=window&regex=__$">regex</a></li>
+    <li>Execute <a href="index.php?input=window&js=obj[prop](prop)">js</a> on every property
         <ul>
           <li>obj contains a reference to current enumerated object.</li>
           <li>prop contains a string of the property name</li>
         </ul>
     </li>
-    <li>Filter properties by <a href="index.html?input=window&type=string">type</a></li>
+    <li>Filter properties by <a href="index.php?input=window&type=string">type</a></li>
     <li>
-      The <a href="index.html?html=<b>1337</b>">html</a> parameter can be used to pass html
+      The <a href="index.php?html=<b>1337</b>">html</a> parameter can be used to pass html
       <ul>
-        <li>You can also pass html and then <a href="index.html?input=window&html=<iframe src=//burpcollaborator.net id=x>&type=x-domain window">inspect</a> it</li>
+        <li>You can also pass html and then <a href="index.php?input=window&html=<iframe src=//burpcollaborator.net id=x>&type=x-domain window">inspect</a> it</li>
       </ul>
     </li>
     <li>
-      Use the <a href="index.html?input=window&blind=1">blind</a> option to save a copy of the enumeration html when you can't see it's output
+      Use the <a href="index.php?input=window&blind=1">blind</a> option to save a copy of the enumeration html when you can't see it's output
       <ul>
           <li>The results are stored <a href="display.php">here</a></li>
           <li>Note you can't interact with this display but you can send multiple requests to determine an objects structure</li>
       </ul>
     </li>
-    <li>You can <a href="index.html?input=window&regex=^.{1,3}$&js=alert(prop)&type=function">combine</a> all parameters</li>
+    <li>You can <a href="index.php?input=window&regex=^.{1,3}$&js=alert(prop)&type=function">combine</a> all parameters</li>
   </ul>
 </div>
 <script>
