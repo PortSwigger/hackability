@@ -66,13 +66,17 @@ $logger->init();
     if(window.addEventListener) {
   		window.addEventListener('load', function(){
         if(typeof params.input === 'string' && params.input.length) {
-          Inspector.inspect(params.input, false, false, params);
+          setTimeout(function(){
+            Inspector.inspect(params.input, false, false, params);
+          }, 500);
         }
   		},false);
   	} else if(window.attachEvent) {
   		window.attachEvent('onload', function(){
         if(typeof params.input === 'string' && params.input.length) {
-          Inspector.inspect(params.input, false, false, params);
+          setTimeout(function(){
+            Inspector.inspect(params.input, false, false, params);
+          }, 500);
         }
   		});
   	}
