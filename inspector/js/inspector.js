@@ -39,11 +39,16 @@ window.Inspector = function(){
     var history;
     if(window.localStorage && window.JSON) {
       history = localStorage.getItem('history');
-      if(history === null) {
+      if(typeof history !== 'string') {
         localStorage.setItem('history',JSON.stringify([object]));
       } else {
-        history = JSON.parse(history);
-        if(history[0] !== object && object.length) {
+        try {
+          history = JSON.parse(history);
+        } catch(e){
+          clearHistory();
+          return;
+        }
+        if(history.unshift && history[0] !== object && object.length) {
           history.unshift(object);
           localStorage.setItem('history',JSON.stringify(history));
         }
@@ -54,8 +59,13 @@ window.Inspector = function(){
     var historyItem, history;
     if(window.localStorage && window.JSON) {
       history = localStorage.getItem('history');
-      if(history !== null) {
-        history = JSON.parse(history);
+      if(typeof history === 'string') {
+        try {
+          history = JSON.parse(history);
+        } catch(e){
+          clearHistory();
+          return;
+        }
         if(direction === 'down') {
           historyItem = history[historyPos-1];
           if(historyItem === domObjects.input.value && typeof history[historyPos-2] === 'string') {

@@ -1,4 +1,5 @@
 <?php
+header("X-XSS-Protection: 0");
 require('../inc/functions.inc.php');
 require('../inc/inspectorLogger.class.php');
 $logger = new InspectorLogger();
@@ -68,7 +69,7 @@ $logger->init();
         if(typeof params.input === 'string' && params.input.length) {
           setTimeout(function(){
             Inspector.inspect(params.input, false, false, params);
-          }, 500);
+          }, 50);
         }
   		},false);
   	} else if(window.attachEvent) {
@@ -76,7 +77,7 @@ $logger->init();
         if(typeof params.input === 'string' && params.input.length) {
           setTimeout(function(){
             Inspector.inspect(params.input, false, false, params);
-          }, 500);
+          }, 50);
         }
   		});
   	}
