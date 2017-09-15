@@ -3,6 +3,7 @@ body {
   padding:0;
   font-family: Arial;
   font-size:12px;
+  background-color: #fff;
 }
 #input {
   width:100%;
