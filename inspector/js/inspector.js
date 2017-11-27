@@ -425,13 +425,27 @@ window.Inspector = function(){
       li.appendChild(objectType);
     }
     li.enumerate = function(interestingOnly, filter, js, selectedType) {
-        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, forInProperties = {};
+        var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, forInProperties = {}, methods, fields;
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
         }
         if(this.enumerated) {
           this.removeChild(this.getElementsByTagName('ul')[0]);
         }
+        try {
+          if(methods = this.object.getClass().getMethods()) {
+              for(i=0;i<methods.length();i++) {
+                props.push(methods[i].getName());
+              }
+          }
+        } catch(e){}
+        try {
+          if(fields = this.object.getClass().getFields()) {
+              for(i=0;i<fields.length();i++) {
+                props.push(fields[i].getName());
+              }
+          }
+        } catch(e){}
         for(i=-10;i<=0xff;i++) {
           props.push(i);
           if(i>-1) {
