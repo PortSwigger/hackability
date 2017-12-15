@@ -25,6 +25,23 @@ if (class_exists('SQLite3')) {
         die('Unable to create table.');
       }
     }
+    function updateData($objName, $html) {
+      $objName = (string) $objName;
+      $html = (string) $html;
+      if(!strlen($objName) || !strlen($html)) {
+        die("Object name or html not supplied");
+      }
+      $sql = "UPDATE inspection_log SET object_name = :objectName, user_agent = :userAgent, html = :html, date_of_request = DATETIME('now','localtime') WHERE ip = :ip";
+      $prepareStatement = $this->prepare($sql);
+      $prepareStatement->bindParam(':objectName', $objName);
+      $prepareStatement->bindParam(':userAgent', $_SERVER['HTTP_USER_AGENT']);
+      $prepareStatement->bindParam(':html', $html);
+      $prepareStatement->bindParam(':ip', $_SERVER['REMOTE_ADDR']);
+      $result = $prepareStatement->execute();
+      if(!$result) {
+        die('Unable to store data');
+      }
+    }
     function insertData($objName, $html) {
       $objName = (string) $objName;
       $html = (string) $html;

@@ -12,6 +12,8 @@ if($logger) {
   $row = $result->fetchArray(SQLITE3_ASSOC);
   if($row['count'] === 0) {
     $logger->insertData($objName, $html);
+  } else {
+    $logger->updateData($objName, $html);
   }
   $logger->close();
 } else {
