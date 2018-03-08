@@ -38,6 +38,9 @@ window.Inspector = function(){
   }
   function createHistory(object) {
     var history;
+    try {window.localStorage} catch(e){
+      return false;
+    }
     if(window.localStorage && window.JSON) {
       history = localStorage.getItem('history');
       if(typeof history !== 'string') {
@@ -58,6 +61,9 @@ window.Inspector = function(){
   }
   function getHistory(direction) {
     var historyItem, history;
+    try {window.localStorage} catch(e){
+      return false;
+    }
     if(window.localStorage && window.JSON) {
       history = localStorage.getItem('history');
       if(typeof history === 'string') {
@@ -94,6 +100,9 @@ window.Inspector = function(){
     }
   }
   function clearHistory() {
+    try {window.localStorage} catch(e){
+      return false;
+    }
     if(window.localStorage && window.JSON) {
       localStorage.setItem('history',JSON.stringify([]));
     }
@@ -338,7 +347,7 @@ window.Inspector = function(){
         if(window.console) {
           console.log('X-domain constructor found!');
         }
-        output += '<div class="error">X-domain constructor found!</div>';          
+        output += '<div class="error">X-domain constructor found!</div>';
       }
     } catch(e){}
     output += '<div class="box"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></td>';
