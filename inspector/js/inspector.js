@@ -326,11 +326,19 @@ window.Inspector = function(){
       } catch(e){}
     }
     try {
-      if(obj.constructor && obj.constructor.constructor && obj.constructor.constructor === obj.constructor.constructor.constructor && obj.constructor.constructor('return document.domain')() !== document.domain) {
+      if(obj.constructor.constructor.constructor('return document.domain')() !== document.domain) {
         if(window.console) {
           console.log('X-domain constructor found!');
         }
         output += '<div class="error">X-domain constructor found!</div>';
+      }
+    } catch(e){}
+    try {
+      if(obj.constructor.prototype.__defineGetter__.constructor('return document.domain')() !== document.domain) {
+        if(window.console) {
+          console.log('X-domain constructor found!');
+        }
+        output += '<div class="error">X-domain constructor found!</div>';          
       }
     } catch(e){}
     output += '<div class="box"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></td>';
