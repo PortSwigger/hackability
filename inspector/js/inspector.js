@@ -373,7 +373,7 @@ window.Inspector = function(){
           this.innerHTML='&#x25b7;';
         }
         if(history.pushState) {
-          history.pushState({},'', '?input='+encodeURIComponent(path));
+          history.pushState({},'', '?input='+encodeURIComponent(generatePath(path)));
         } else {
           location.hash = generatePath(path);
         }
