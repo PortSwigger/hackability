@@ -51,7 +51,11 @@ form {
 }
 .enumerator li > ul {
   -webkit-margin-start: 0;
-  padding-left:10px;
+  padding-left:30px;
+}
+.filtersSpan {
+  margin-bottom:10px;
+  margin-left:10px;
 }
 .enumerator {
   padding-left:0;

@@ -244,7 +244,9 @@ window.Inspector = function(){
   }
   function createEnumerator(obj, params, isRoot, name, path, parent, interestingProp) {
     var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, objectType, option, regexInput, jsInput,
-        ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a'), test, i;
+        ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a'), test, i, filtersSpan = document.createElement('span');
+    filtersSpan.style.display = 'none';
+    filtersSpan.className = 'filtersSpan';
     realType = getRealType(obj);
     output += '<table class="propertyTable">';
     output += '<tr>';
@@ -366,9 +368,11 @@ window.Inspector = function(){
           if(!this.parentNode.enumerated){
             this.parentNode.enumerate();
           }
+          filtersSpan.style.display = 'block';
           this.parentNode.className='on';
           this.innerHTML='&#9660;';
         } else {
+          filtersSpan.style.display = 'none';
           this.parentNode.className='off';
           this.innerHTML='&#x25b7;';
         }
@@ -390,10 +394,10 @@ window.Inspector = function(){
       if(params && typeof params.interesting === 'string' && params.interesting === 'true') {
         checkbox.checked = true;
       }
-      li.appendChild(checkbox);
-      li.appendChild(document.createTextNode('Interesting props?'));
+      filtersSpan.appendChild(document.createTextNode('Show interesting'));
+      filtersSpan.appendChild(checkbox);
     }
-    li.appendChild(document.createTextNode(' '));
+    filtersSpan.appendChild(document.createTextNode(' '));
     if(realType === 'object' || isRoot) {
       regexInput = document.createElement('input');
       regexInput.placeholder = 'Filter by regex';
@@ -404,7 +408,7 @@ window.Inspector = function(){
       if(params && typeof params.regex === 'string' && params.regex.length) {
         regexInput.value = params.regex;
       }
-      li.appendChild(regexInput);
+      filtersSpan.appendChild(regexInput);
     }
     if(realType === 'object'  || isRoot) {
       li.appendChild(document.createTextNode(' '));
@@ -417,7 +421,7 @@ window.Inspector = function(){
       if(params && typeof params.js === 'string' && params.js.length) {
         jsInput.value = params.js;
       }
-      li.appendChild(jsInput);
+      filtersSpan.appendChild(jsInput);
     }
     if(realType === 'object' || isRoot) {
       li.appendChild(document.createTextNode(' '));
@@ -441,10 +445,12 @@ window.Inspector = function(){
           li.enumerate(typeof checkbox !== 'undefined' ? checkbox.checked : false, regexInput.value, jsInput.value, this.options[this.selectedIndex].value);
           this.blur();
       };
-      li.appendChild(objectType);
+      filtersSpan.appendChild(objectType);
+      li.appendChild(filtersSpan);
     }
     li.enumerate = function(interestingOnly, filter, js, selectedType) {
         var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, forInProperties = {}, methods, fields;
+        filtersSpan.style.display = 'block';
         if(typeof filter !== 'undefined') {
           regex = new RegExp(filter);
         }
