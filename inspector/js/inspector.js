@@ -248,7 +248,12 @@ window.Inspector = function(){
     filtersSpan.style.display = 'none';
     filtersSpan.className = 'filtersSpan';
     realType = getRealType(obj);
-    output += '<table class="propertyTable">';
+    output += '<table class="propertyTable" cellpadding="0" cellspacing="0">';
+    output += '<tr>';
+    output += '<th>Name</th>';
+    output += '<th>Value</th>';
+    output += '<th>Property info</th>';
+    output += '</tr>';
     output += '<tr>';
     output += '<td valign="top" class="propertyName"><a href="#" onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1].firstChild.firstChild.click();return false;">'+escapeHTML(generatePath(path))+'</a></td>';
     output += '<td valign="top" class="propertyValue '+escapeHTML(realType)+(interestingProp?' interesting':'')+'">';

@@ -75,17 +75,33 @@ a:link, a:visited, .enumerator a:link, .enumerator a:visited {
 .propertyTable {
   width:90%;
   table-layout: fixed;
+  border-collapse: collapse;
+}
+.propertyTable th {
+  border:1px solid #ccc;
+  text-align: left;
+  background: rgb(255,255,255);
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(241,241,241,1) 50%, rgba(225,225,225,1) 51%, rgba(246,246,246,1) 100%);
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(241,241,241,1) 50%,rgba(225,225,225,1) 51%,rgba(246,246,246,1) 100%);
+filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#f6f6f6',GradientType=0 );
+  color:#000;
+  font-weight: normal;
+  padding:5px;
 }
 .propertyTable  td {
   border:1px solid #ccc;
-  border-collapse: collapse;
-  padding: 3px;
+  background: -moz-linear-gradient(top, rgba(255,255,255,1) 0%, rgba(255,255,255,0) 100%);
+  background: -webkit-linear-gradient(top, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  background: linear-gradient(to bottom, rgba(255,255,255,1) 0%,rgba(255,255,255,0) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#ffffff', endColorstr='#00ffffff',GradientType=0 );
+  padding: 5px;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
 .propertyName {
-  width:400px;
-  min-width:400px;
+  width:300px;
+  min-width:300px;
   overflow-wrap: break-word;
   word-wrap: break-word;
 }
