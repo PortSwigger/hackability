@@ -306,6 +306,12 @@ window.Inspector = function(){
       if(isCrossDomainWindow(obj)) {
         output += '<div class="box">Is a x-domain window object</div>';
         try {
+          Object.defineProperty(obj,'definePropertyTest', {get(){return "test";}});
+          if(obj.definePropertyTest === 'test') {
+            output += '<div class="error">Can use defineProperty to set properties on x-domain window</div>';
+          }
+        } catch(e){}
+        try {
           obj.setPropertyTest = 'test';
           if(obj.setPropertyTest === 'test') {
             output += '<div class="error">Can set properties on x-domain window</div>';
