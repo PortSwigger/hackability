@@ -319,7 +319,7 @@ window.Inspector = function(){
       if(typeof obj === 'function') {
         output += '<div class="box arguments">arguments:'+escapeHTML(obj.length)+'</div>';
         output += '<div class="box"><a href="#" onclick="try{Inspector.log('+escapeHTML(generatePath(path))+'(),false,'+escapeHTML(generatePath(path))+');}catch(e){Inspector.error(e);}return false;">Call function and return value</a></div>';
-        output += '<div class="box"><a href="#" onclick="try{'+escapeHTML(generatePath(path))+'(function(){Inspector.log(\'Callback called\');});}catch(e){Inspector.error(e);}return false;">Call function with callback</a></div>';
+        output += '<div class="box"><a href="#" onclick="try{'+escapeHTML(generatePath(path))+'(function(){Inspector.log(\'Callback called for:'+jsEscape(generatePath(path))+'\');});}catch(e){Inspector.error(e);}return false;">Call function with callback</a></div>';
       } else if(obj && typeof obj.length !== 'undefined') {
         output += '<div class="box length">length:'+escapeHTML(obj.length)+'</div>';
       }
