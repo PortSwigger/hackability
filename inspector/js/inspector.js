@@ -680,7 +680,7 @@ window.Inspector = function(){
           }
           if(js) {
             try {
-              Function('obj','prop',js)(this.object, props[i])();
+              Function('obj','prop',js)(this.object, props[i]);
             } catch(e){
               if(window.console) {
                 console.error(e.message);
