@@ -379,6 +379,9 @@ window.Inspector = function(){
     if(isObjectConstructor(obj)) {
       output += '<div class="box">Is a Object constructor</div>';
     }
+    if(isDomNode(obj)) {
+      output += '<div class="box">Is a DOM node</div>';
+    }
     if(isJavaBridge(obj)) {
       output += '<div class="box">Is possibly a Java bridge</div>';
       try {
