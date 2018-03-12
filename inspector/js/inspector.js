@@ -271,11 +271,13 @@ window.Inspector = function(){
       if(obj.definePropertyTest === 'test') {
         output += '<div class="error"><a href="#" onclick="Inspector.setInput(this.getAttribute(\'data-code\'));return false;" data-code="Object.defineProperty('+escapeHTML(generatePath(path))+',\'setPropertyTest\',{configurable:true,,get:function(){return \'test\';}})">Can use defineProperty to set properties on object</a></div>';
       }
+      delete obj.definePropertyTest;
     } catch(e){}
     try {
       obj.setPropertyTest = 'test';
       if(obj.setPropertyTest === 'test') {
         output += '<div class="error"><a href="#" onclick="Inspector.setInput(this.getAttribute(\'data-code\'));return false;" data-code="'+escapeHTML(generatePath(path))+'.setPropertyTest=\'test\'">Can set properties on object</a></div>';
+        delete obj.setPropertyTest;
       }
     } catch(e){}
     try {
