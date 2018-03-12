@@ -490,7 +490,7 @@ window.Inspector = function(){
           this.blur();
       };
       filtersSpan.appendChild(objectType);
-      li.appendChild(filtersSpan);
+      ul.appendChild(filtersSpan);
     }
     li.enumerate = function(interestingOnly, filter, js, selectedType) {
         var i, j, ul = document.createElement('ul'), li, div, propCheck = {}, props = [], checkProp = {}, regex, interestingProps = [], interestingPropsLookup = {}, found, type, forInProperties = {}, methods, fields;

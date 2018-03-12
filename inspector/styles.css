@@ -9,7 +9,7 @@ body {
   width:100%;
   padding: 5px;
   padding-left:20px;
-  background: url(img/arrow-in.svg) no-repeat 5px;
+  background: url(img/arrow-in.svg) no-repeat 5px #fff;
 }
 form {
   position: fixed;
@@ -54,8 +54,6 @@ form {
   padding-left:30px;
 }
 .filtersSpan {
-  margin-bottom:10px;
-  margin-left:10px;
 }
 .enumerator {
   padding-left:0;
@@ -65,6 +63,9 @@ form {
 }
 .enumerator > li.on > ul {
   display:block;
+  border-left: 1px solid #ccc;
+  position: relative;
+  left:5px;
 }
 a:link, a:visited, .enumerator a:link, .enumerator a:visited {
   text-decoration: none;
