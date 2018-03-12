@@ -4,6 +4,7 @@ window.Inspector = function(){
   result, domObjects, callbacks = {}, historyPos = 0, types = ['array','NaN','null','function','object','string','boolean','symbol','undefined','number','window','function constructor','object constructor','document','dom node','x-domain window','java bridge','location','x-domain location'].sort();
   function inspect(object, isHTML, resultOnly, params) {
      var errorMessage;
+     object = trim(object);
      window.scrollTo(0,0);
      if(domObjects.usage) {
        domObjects.usage.innerHTML = '';
@@ -128,6 +129,10 @@ window.Inspector = function(){
       return 'null';
     }
     return typeof obj;
+  }
+  function trim(str) {
+    str = str + '';
+    return str.replace(/^\s+/gi,'').replace(/\s+$/gi,'');
   }
   function escapeHTML(str) {
     str = str + '';
