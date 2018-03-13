@@ -275,7 +275,7 @@ window.Inspector = function(){
       this.focus();
     }
   }
-  function securityChecks(obj,path) {
+  function securityChecks(obj, path, name, parent) {
     var output = '';
     try {
       Object.defineProperty(obj,'definePropertyTest', {configurable:true,get:function(){return "test";}});
@@ -291,6 +291,15 @@ window.Inspector = function(){
         delete obj.setPropertyTest;
       }
     } catch(e){}
+    try {
+      delete parent[name];
+      parent[name] = "test";
+      if(parent[name] === 'test') {
+        output += '<div class="error"><a href="#" onclick="Inspector.setInput(this.getAttribute(\'data-code\'));return false;" data-code="delete '+escapeHTML(generatePath(path))+';'+escapeHTML(generatePath(path))+'=\'test\'">Property can be deleted</a></div>';
+      }
+      parent[name] = obj;
+    } catch(e){}
+
     try {
       test = obj.readPropertyTest;
     } catch(e){
@@ -383,7 +392,7 @@ window.Inspector = function(){
     }
     if(isCrossDomainWindow(obj) || isCrossDomainWindow(parent)) {
       if(!(isWindow(obj) && !isCrossDomainWindow(obj))) {
-        output += securityChecks(obj,path);
+        output += securityChecks(obj, path, name, parent);
       }
     }
     if(isFunctionConstructor(obj)) {
