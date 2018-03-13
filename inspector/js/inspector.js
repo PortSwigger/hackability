@@ -464,6 +464,7 @@ window.Inspector = function(){
       }
       filtersSpan.appendChild(document.createTextNode('Show interesting'));
       filtersSpan.appendChild(checkbox);
+      filtersSpan.appendChild(document.createTextNode(' '));
     }
     filtersSpan.appendChild(document.createTextNode(' '));
     if(realType === 'object' || isRoot) {
@@ -477,6 +478,7 @@ window.Inspector = function(){
         regexInput.value = params.regex;
       }
       filtersSpan.appendChild(regexInput);
+      filtersSpan.appendChild(document.createTextNode(' '));
     }
     if(realType === 'object'  || isRoot) {
       li.appendChild(document.createTextNode(' '));
@@ -490,6 +492,7 @@ window.Inspector = function(){
         jsInput.value = params.js;
       }
       filtersSpan.appendChild(jsInput);
+      filtersSpan.appendChild(document.createTextNode(' '));
     }
     if(realType === 'object' || isRoot) {
       li.appendChild(document.createTextNode(' '));
