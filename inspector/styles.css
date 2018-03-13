@@ -113,6 +113,7 @@ a:link, a:visited, .enumerator a:link, .enumerator a:visited {
 }
 pre {
   white-space: pre-wrap;
+  margin-top:0;
 }
 .propertyInfo {
   width:250px;
