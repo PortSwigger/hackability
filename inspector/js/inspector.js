@@ -860,14 +860,14 @@ window.Inspector = function(){
   function setDomObjects(obj) {
       domObjects = obj;
       domObjects.input.onkeyup = function(e){
-        if(/[;{\n]/.test(domObjects.input.value)) {
+        if(/[;\n]/.test(domObjects.input.value) || /(?:try|do|[)>])\s*[{]/.test(domObjects.input.value)) {
            switchInput(obj, 'textarea');
         } else {
           switchInput(obj, 'text');
         }
       };
       domObjects.input.onpaste = function(e){
-        if(/[;{\n]/.test(domObjects.input.value)) {
+        if(/[;\n]/.test(domObjects.input.value) || /(?:try|do|[)>])\s*[{]/.test(domObjects.input.value)) {
            switchInput(obj, 'textarea');
         } else {
           switchInput(obj, 'text');
