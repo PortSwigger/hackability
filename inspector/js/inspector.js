@@ -346,6 +346,7 @@ window.Inspector = function(){
         output += '<div class="box length">length:'+escapeHTML(obj.length)+'</div>';
       }
     } catch(e){}
+    output += '<div class="box"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></div>';
     if(Object.getOwnPropertyDescriptor && parent) {
       try {
         descriptor = Object.getOwnPropertyDescriptor(parent, name);
@@ -430,7 +431,6 @@ window.Inspector = function(){
         output += '<div class="error">X-domain constructor found!</div>';
       }
     } catch(e){}
-    output += '<div class="box"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></td>';
     output += '</td>';
     output += '</tr>';
     output += '</table>';
