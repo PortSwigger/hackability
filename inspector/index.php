@@ -15,7 +15,7 @@ $logger->init();
 </head>
 <body>
 <form autocomplete="off" onsubmit="return false;">
-    <input type="text" id="input" autofocus placeholder="Shortcuts:RETURN (Eval js), CTRL+RETURN (Exec HTML), SHIFT+RETURN (Eval but don't inspect), CTRL+Backspace (Clear), CTRL+SHIFT+Backspace (Clear history)" />
+    <input type="text" id="input" autofocus placeholder="Shortcuts:RETURN (Eval js), CTRL+RETURN (Eval js), SHIFT+RETURN (Eval but don't inspect), CTRL+Backspace (Clear), CTRL+SHIFT+Backspace (Clear history)" />
 </form>
 <div id="output"></div>
 <div id="usage">

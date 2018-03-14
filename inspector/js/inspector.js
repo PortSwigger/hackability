@@ -9,7 +9,9 @@ window.Inspector = function(){
      if(domObjects.usage) {
        domObjects.usage.innerHTML = '';
      }
-      domObjects.input.value = '';
+      if(domObjects.input.type === 'text') {
+        domObjects.input.value = '';
+      }
       if(/^</.test(object)) {
          isHTML = true;
       }
@@ -821,18 +823,66 @@ window.Inspector = function(){
   function setCallbacks(obj) {
     callbacks = obj;
   }
+  function switchInput(obj, type) {
+    var input, parent = obj.input.parentNode, output, val = obj.input.value;
+    if(obj.input.type === type) {
+      return false;
+    }
+    input = document.createElement(type === 'text' ? 'input' : type);
+    output = document.getElementById('output');
+    if(type === 'text') {
+      input.style.height = 'auto';
+      output.style.marginTop = '30px';
+    } else {
+      input.style.height = '150px';
+      output.style.marginTop = '170px';
+    }
+    input.id = 'input';
+    input.placeholder = obj.input.placeholder;
+    input.value = obj.input.value;
+    parent.removeChild(obj.input);
+    parent.appendChild(input);
+    obj.input = input;
+    setDomObjects(obj);
+    input.focus();
+    moveCursorToEnd(input);
+  }
+  function moveCursorToEnd(el) {
+  	if (typeof el.selectionStart == "number") {
+  		el.selectionStart = el.selectionEnd = el.value.length;
+  	} else if (typeof el.createTextRange != "undefined") {
+  		el.focus();
+  		var range = el.createTextRange();
+  		range.collapse(false);
+  		range.select();
+  	}
+  }
   function setDomObjects(obj) {
       domObjects = obj;
+      domObjects.input.onkeyup = function(e){
+        if(/[;{\n]/.test(domObjects.input.value)) {
+           switchInput(obj, 'textarea');
+        } else {
+          switchInput(obj, 'text');
+        }
+      };
+      domObjects.input.onpaste = function(e){
+        if(/[;{\n]/.test(domObjects.input.value)) {
+           switchInput(obj, 'textarea');
+        } else {
+          switchInput(obj, 'text');
+        }
+      };
       domObjects.input.onkeydown = function(e){
-        var event = window.event ? window.event : e;
-        if(event.keyCode === 38) {
+        var event = window.event ? window.event : e, val, selectionStart, selectionEnd;
+        if(event.keyCode === 38 && (domObjects.input.type === 'text'||(domObjects.input.type === 'textarea' && event.altKey))) {
           getHistory('up');
           if(event.preventDefault) {
             event.preventDefault();
           } else {
             event.returnValue = false;
           }
-        } else if(event.keyCode === 40) {
+        } else if(event.keyCode === 40 && (domObjects.input.type === 'text'||(domObjects.input.type === 'textarea' && event.altKey))) {
           getHistory('down');
           if(event.preventDefault) {
             event.preventDefault();
@@ -845,17 +895,27 @@ window.Inspector = function(){
           } else if(event.ctrlKey) {
             Inspector.clear();
           }
+        } else if(event.keyCode === 9 && domObjects.input.type === 'textarea') {
+          val=domObjects.input.value;
+          selectionStart=domObjects.input.selectionStart;
+          selectionEnd=this.selectionEnd;
+          domObjects.input.value=val.substring(0, selectionStart)+'\t'+val.substring(selectionEnd);
+          domObjects.input.selectionStart=domObjects.input.selectionEnd=selectionStart+1;
+          event.preventDefault();
         } else if(event.keyCode === 13) {
           historyPos = 0;
           if(this.value.length) {
             if(event.ctrlKey) {
-              Inspector.inspect(this.value, true);
+              Inspector.inspect(this.value);
             } else {
               if(event.shiftKey) {
                 Inspector.inspect(this.value, false, true);
-              } else {
+              } else if((domObjects.input.type === 'text'||(domObjects.input.type === 'textarea' && event.ctrlKey))) {
                 Inspector.inspect(this.value);
               }
+            }
+            if(domObjects.input.type === 'textarea' && !event.ctrlKey) {
+                return;
             }
           }
           if(event.preventDefault) {
