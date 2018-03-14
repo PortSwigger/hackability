@@ -343,7 +343,13 @@ window.Inspector = function(){
         output += '<div class="box"><a href="#" onclick="try{Inspector.log('+escapeHTML(generatePath(path))+'(),false,'+escapeHTML(generatePath(path))+');}catch(e){Inspector.error(e);}return false;">Call function and return value</a></div>';
         output += '<div class="box"><a href="#" onclick="try{'+escapeHTML(generatePath(path))+'(function(){Inspector.log(\'Callback called for:'+jsEscape(generatePath(path))+'\');});}catch(e){Inspector.error(e);}return false;">Call function with callback</a></div>';
       } else if(obj && typeof obj.length !== 'undefined') {
-        output += '<div class="box length">length:'+escapeHTML(obj.length)+'</div>';
+        if(typeof obj.length === 'function') {
+          try {
+            output += '<div class="box length">length():'+escapeHTML(obj.length())+'</div>';
+          } catch(e){}
+        } else {
+          output += '<div class="box length">length:'+escapeHTML(obj.length)+'</div>';
+        }
       }
     } catch(e){}
     output += '<div class="box"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></div>';
