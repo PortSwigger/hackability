@@ -355,7 +355,7 @@ window.Inspector = function(){
     output += '<th>Property info</th>';
     output += '</tr>';
     output += '<tr>';
-    output += '<td valign="top" class="propertyName"><a href="#" onclick="this.parentNode.parentNode.parentNode.parentNode.parentNode.childNodes[1].firstChild.firstChild.click();return false;">'+escapeHTML(generatePath(path))+'</a></td>';
+    output += '<td valign="top" class="propertyName"><a href="#" data-selector="a[title=\''+escapeHTML(generatePath(path))+'\'" onclick="document.querySelector&&document.querySelector(this.getAttribute(\'data-selector\')).click();return false;">'+escapeHTML(generatePath(path))+'</a></td>';
     output += '<td valign="top" class="propertyValue'+(interestingProp?' interesting':'')+'">';
     try {
       output += '<code><pre>'+escapeHTML(obj)+'</pre></code>';
