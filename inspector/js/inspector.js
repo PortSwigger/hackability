@@ -939,8 +939,13 @@ window.Inspector = function(){
         val=element.value;
         selectionStart=element.selectionStart;
         selectionEnd=element.selectionEnd;
-        element.value=val.substring(0, selectionStart)+'\t'+val.substring(selectionEnd);
-        element.selectionStart=element.selectionEnd=selectionStart+1;
+        if(event.shiftKey) {
+          element.value=val.substring(0, selectionStart).replace(/\t$/,'')+val.substring(selectionEnd);
+          element.selectionStart=element.selectionEnd=selectionStart-1;
+        } else {
+          element.value=val.substring(0, selectionStart)+'\t'+val.substring(selectionEnd);
+          element.selectionStart=element.selectionEnd=selectionStart+1;
+        }
         event.preventDefault();
       } else if(event.keyCode === 13) {
         historyPos = 0;
