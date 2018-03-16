@@ -6,11 +6,11 @@ body {
   background-color: #fff;
 }
 textarea, input, button, select { font-family: inherit; font-size: inherit; }
-#input {
+.input {
   width:100%;
   padding: 5px;
   padding-left:20px;
-  background: url(img/arrow-in.svg) no-repeat 5px #fff;
+  background: url(img/arrow-in.svg) no-repeat 5px 7px #fff;
 }
 form {
   position: fixed;
