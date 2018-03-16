@@ -968,7 +968,6 @@ window.Inspector = function(){
   }
   function setDomObjects(obj) {
       domObjects = obj;
-      singleLineInput = domObjects.input;
       registerEvents(domObjects.input, obj);
   }
   return {
