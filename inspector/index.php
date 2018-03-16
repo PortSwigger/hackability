@@ -15,7 +15,7 @@ $logger->init();
 </head>
 <body>
 <form autocomplete="off" onsubmit="return false;">
-    <input type="text" class="input" id="input" autofocus placeholder="Shortcuts:RETURN (Eval &amp; Inspect), CTRL+RETURN (Eval js), SHIFT+RETURN (Eval but don't inspect), CTRL+Backspace (Clear), CTRL+SHIFT+Backspace (Clear history)" />
+    <textarea class="singleLineInput" id="input" autofocus placeholder="Shortcuts:RETURN (Eval &amp; Inspect), CTRL+RETURN (Eval js), SHIFT+RETURN (Eval but don't inspect), CTRL+Backspace (Clear), CTRL+SHIFT+Backspace (Clear history)"></textarea>
 </form>
 <div id="output"></div>
 <div id="usage">
