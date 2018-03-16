@@ -880,9 +880,13 @@ window.Inspector = function(){
   function registerEvents(element, obj) {
     element.onkeyup = function(e){
       if(/[;\n]/.test(element.value) || /(?:try|do|[)>])\s*[{]/.test(element.value)) {
-         switchInput(obj, 'textarea', element.value);
+         if(obj.input.type !== 'textarea') {
+           switchInput(obj, 'textarea', element.value);
+         }
       } else {
-        switchInput(obj, 'text', element.value);
+        if(obj.input.type !== 'text') {
+          switchInput(obj, 'text', element.value);
+        }
       }
     };
     element.onpaste = function(e){
