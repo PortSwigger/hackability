@@ -914,7 +914,7 @@ window.Inspector = function(){
       }
     };
     element.onkeydown = function(e){
-      var event = window.event ? window.event : e, val, selectionStart, selectionEnd;
+      var event = window.event ? window.event : e, val, selectionStart, selectionEnd, lines, i, len, text, matches, pattern = /^\t/i, edits = 0;
       if(event.keyCode === 38 && (element.className === 'singleLineInput' || (element.className === 'multiLineInput' && event.altKey))) {
         getHistory('up');
         if(event.preventDefault) {
@@ -939,12 +939,58 @@ window.Inspector = function(){
         val=element.value;
         selectionStart=element.selectionStart;
         selectionEnd=element.selectionEnd;
-        if(event.shiftKey) {
-          element.value=val.substring(0, selectionStart).replace(/\t$/,'')+val.substring(selectionEnd);
-          element.selectionStart=element.selectionEnd=selectionStart-1;
+        if(selectionStart === selectionEnd) {
+          if(event.shiftKey) {
+            element.value=val.substring(0, selectionStart).replace(/\t$/,'')+val.substring(selectionEnd);
+            element.selectionStart=element.selectionEnd=selectionStart-1;
+          } else {
+            element.value=val.substring(0, selectionStart)+'\t'+val.substring(selectionEnd);
+            element.selectionStart=element.selectionEnd=selectionStart+1;
+          }
         } else {
-          element.value=val.substring(0, selectionStart)+'\t'+val.substring(selectionEnd);
-          element.selectionStart=element.selectionEnd=selectionStart+1;
+          if(event.shiftKey) {
+            if(selectionStart === selectionEnd) {
+              while(selectionStart > 0) {
+                if(val.charAt(selectionStart) === '\n') {
+                  selectionStart++;
+                  break;
+                }
+                selectionStart--;
+              }
+              text = val.substring(selectionStart, selectionEnd);
+              matches = text.match(pattern);
+              if(matches) {
+                element.value = val.substring(0, selectionStart) + text.replace(pattern,"") + val.substring(selectionEnd);
+                end--;
+              }
+              selectionEnd = selectionEnd <= selectionStart ? selectionEnd : selectionEnd;
+              element.setSelectionRange(selectionEnd, selectionEnd);
+            } else {
+              lines = val.substring(selectionStart, selectionEnd).split('\n');
+              len = lines.length;
+              for(i=0;i<len;++i) {
+                if(lines[i].match(pattern)) {
+                  edits++;
+                  lines[i] = lines[i].replace(pattern,"")
+                }
+              }
+              element.value = val.substring(0,selectionStart) + lines.join('\n') + val.substring(selectionEnd);
+              element.setSelectionRange(selectionStart, (selectionEnd > 0 ? selectionEnd - edits : selectionEnd));
+            }
+          } else {
+            lines = val.substring(selectionStart, selectionEnd).split('\n');
+            len = lines.length;
+            for(i=0;i<len;i++) {
+              lines[i] = "\t" + lines[i];
+            }
+            element.value=val.substring(0, selectionStart)+lines.join('\n')+val.substring(selectionEnd);
+            selectionEnd = selectionEnd + lines.length;
+            if(selectionStart === selectionEnd) {
+              element.setSelectionRange(selectionEnd, selectionEnd);
+            } else {
+              element.setSelectionRange(selectionStart, selectionEnd);
+            }
+          }
         }
         event.preventDefault();
       } else if(event.keyCode === 13) {
