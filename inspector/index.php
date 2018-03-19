@@ -15,7 +15,7 @@ $logger->init();
 </head>
 <body>
 <form autocomplete="off" onsubmit="return false;">
-    <textarea class="singleLineInput" id="input" autofocus placeholder="Shortcuts:RETURN (Eval &amp; Inspect), CTRL+RETURN (Eval js), SHIFT+RETURN (Eval but don't inspect), CTRL+Backspace (Clear), CTRL+SHIFT+Backspace (Clear history)"></textarea>
+    <textarea class="singleLineInput" id="input" autofocus placeholder="Shortcuts:RETURN (Eval &amp; Inspect), CTRL+RETURN (Eval js), SHIFT+RETURN (Eval but don't inspect)"></textarea>
 </form>
 <div id="output"></div>
 <div id="usage">
@@ -45,6 +45,18 @@ $logger->init();
       </ul>
     </li>
     <li>You can <a href="index.php?input=window&regex=^.{1,3}$&js=alert(prop)&type=function">combine</a> all parameters</li>
+  </ul>
+  <h1>Shortcuts</h1>
+  <ul>
+      <li>RETURN: Eval js &amp; inspect</li>
+      <li>CTRL+RETURN: Eval js</li>
+      <li>SHIFT+RETURN: Eval but don't inspect</li>
+      <li>CTRL+BACKSPACE: Clear</li>
+      <li>CTRL+SHIFT+BACKSPACE: Clear history</li>
+      <li>UP:Go backwards in history</li>
+      <li>DOWN:Go forwards in history</li>
+      <li>UP+ALT:Go backwards in history (used in multiline mode)</li>
+      <li>DOWN+ALT:Go forwards in history (used in multiline mode)</li>
   </ul>
 </div>
 <script>
