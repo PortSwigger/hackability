@@ -318,12 +318,13 @@ window.Inspector = function(){
       }
     } catch(e){}
     try {
-      delete parent[name];
-      parent[name] = "test";
-      if(parent[name] === 'test') {
-        output += '<div class="error"><a href="#" onclick="Inspector.setInput(this.getAttribute(\'data-code\'));return false;" data-code="delete '+escapeHTML(generatePath(path))+';'+escapeHTML(generatePath(path))+'=\'test\'">Property can be deleted</a></div>';
+      if(delete parent[name]) {
+        parent[name] = "test";
+        if(parent[name] === 'test') {
+          output += '<div class="error"><a href="#" onclick="Inspector.setInput(this.getAttribute(\'data-code\'));return false;" data-code="delete '+escapeHTML(generatePath(path))+';'+escapeHTML(generatePath(path))+'=\'test\'">Property can be deleted</a></div>';
+        }
+        parent[name] = obj;
       }
-      parent[name] = obj;
     } catch(e){}
 
     try {
