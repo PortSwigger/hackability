@@ -876,7 +876,7 @@ window.Inspector = function(){
       checkInput();
     }, false);
     function checkInput(){
-      if(/[;\n]/.test(element.value) || /(?:try|do|[)>])\s*[{]/.test(element.value) || element.clientHeight < element.scrollHeight) {
+      if(/[;\n]/.test(element.value) || /(?:try|do|[)>])\s*[{]/.test(element.value)) {
         if(element.className !== 'multiLineInput') {
           if(element.clientHeight < element.scrollHeight) {
             lastLength = element.value.length;
@@ -899,7 +899,7 @@ window.Inspector = function(){
       } else if(e.clipboardData && e.clipboardData.getData) {
         val = e.clipboardData.getData('text/plain');
       }
-      if(/[;\n]/.test(val) || /(?:try|do|[)>])\s*[{]/.test(val) || element.clientHeight < element.scrollHeight) {
+      if(/[;\n]/.test(val) || /(?:try|do|[)>])\s*[{]/.test(val)) {
         if(element.className !== 'multiLineInput') {
           if(element.clientHeight < element.scrollHeight) {
             lastLength = element.value.length;
