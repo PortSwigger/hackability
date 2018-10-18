@@ -621,7 +621,7 @@ window.Inspector = function(){
         if(window.Enumerator) {
           var str = '', iObj;
       		try {
-      			for (var i = new Enumerator(obj); !i.atEnd(); i.moveNext()){
+      			for (var i = new Enumerator(this.object); !i.atEnd(); i.moveNext()){
       				try {
       					iObj = i.item();
       					str = (iObj.nodeName ? iObj.nodeName : iObj.tagName ? iObj.tagName : 'Unknown');
@@ -1022,9 +1022,45 @@ window.Inspector = function(){
       domObjects = obj;
       registerEvents(domObjects.input, obj);
   }
+  function getProperties(obj){
+    try {
+      return Object.getOwnPropertyNames(obj);
+    } catch(e){
+      return [];
+    }
+  }
   return {
       execute: execute,
       inspect: inspect,
+      diff: function diff(obj1, obj2, path, depth){
+        var props1 = obj1 ? getProperties(obj1) : [], props2 = obj2 ? getProperties(obj2) : [], maxDepth = 3, combined, i, prop, differences = [];
+        if(!depth) {
+          depth = 0;
+        }
+        if(!path) {
+          path = "root";
+        }
+        if(depth < maxDepth) {
+          combined = props1.concat(props2);
+          for(i=0;i<combined.length;i++) {
+              prop = combined[i];
+              try {
+                differences = diff(obj1 ? obj1[prop] : {}, obj2 ? obj2[prop] : {}, path+"."+prop, depth + 1);
+              } catch(e){}
+          }
+        }
+        for(i=0;i<props1.length;i++) {
+          props1[i] = path + "." + props1[i];
+        }
+        for(i=0;i<props2.length;i++) {
+          props2[i] = path + "." + props2[i];
+        }
+        return props1.filter(function(x){
+            return props2.indexOf(x) < 0;
+        }).concat(props2.filter(function(x){
+            return props1.indexOf(x) < 0;
+        })).concat(differences);
+      },
       setInput: setInput,
       setDomObjects: setDomObjects,
       setCallbacks: setCallbacks,
