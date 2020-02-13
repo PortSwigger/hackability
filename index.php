@@ -318,6 +318,55 @@ var props = Inspector.getKnownWindowProps().concat(['Inspector','Hackability']),
 </script>
 <script>
 !function(){
+  function escapeHTML(str) {
+    str = str + '';
+    return str.replace(/[<>'"\\&]/gi,function(c){return'&#'+c.charCodeAt(0)+';';});
+  }
+	function jsChromeCheck() {
+var props = Inspector.getKnownChromeProps().concat(['Inspector','Hackability']), foundProps = Object.getOwnPropertyNames(window.chrome), i, j, diff = [], found, html, links;
+		for(i=0;i<foundProps.length;i++) {
+			found = false;
+			for(j=0;j<props.length;j++) {
+				if(foundProps[i] === props[j]) {
+					found = true;
+					break;
+				}
+			}
+			if(!found) {
+				diff.push(foundProps[i]);
+			}
+		}
+
+		if(diff.length) {
+      html = 'JavaScript chrome object difference:';
+      links = [];
+			Hackability.makeRequest("exploit_js_chrome_object_difference&props="+diff.join(','));
+      if(diff.length) {
+          for(i=0;i<diff.length;i++) {
+            links.push('<a href="<?php echo htmlentities(getUrl(), ENT_QUOTES)?>inspector/index.php?input=window.chrome.'+escapeHTML(diff[i])+'">'+escapeHTML(diff[i])+'</a>');
+          }
+          Hackability.generateRow(true, "", "JavaScript chrome object difference:"+links.join(','));
+      } else {
+			     Hackability.generateRow(true, "JavaScript chrome object difference:"+diff.join(','));
+      }
+    } else {
+			Hackability.makeRequest("info_js_chrome_object_difference&props=No difference");
+			Hackability.generateRow(false, "JavaScript chrome object difference: none");
+		}
+	}
+	if(window.addEventListener) {
+		window.addEventListener('load', function(){
+			jsChromeCheck();
+		},false);
+	} else if(window.attachEvent) {
+		window.attachEvent('onload', function(){
+			jsChromeCheck();
+		});
+	}
+}();
+</script>
+<script>
+!function(){
 	function sopCheck() {
 		var iframe = document.createElement('iframe');
 		iframe.src = 'http://subdomain1.portswigger-labs.net';

@@ -24,6 +24,7 @@ $logger->init();
     <li>Pass <a href="index.php?input=window">input</a> to the inspector</li>
     <li>Only show <a href="index.php?input=window&interesting=true">interesting</a> properties</li>
     <li>Filter properties by <a href="index.php?input=window&regex=__$">regex</a></li>
+    <li>Filter values by <a href="index.php?input=window&regexValue=\[object Navigator\]">regex</a></li>
     <li>Execute <a href="index.php?input=window&js=console.log(prop);obj[prop](prop)">js</a> on every property
         <ul>
           <li>obj contains a reference to current enumerated object.</li>
