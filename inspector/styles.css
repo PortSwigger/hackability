@@ -134,6 +134,8 @@ pre {
   padding: 3px;
   border:1px solid #efefef;
   margin:1px;
+  display:inline-block;
+  width:100px;
 }
 .interesting {
   border:2px solid #000000 !important;

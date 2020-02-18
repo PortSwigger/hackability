@@ -363,7 +363,7 @@ window.Inspector = function(){
     output += '<th>Property info</th>';
     output += '</tr>';
     output += '<tr>';
-    output += '<td valign="top" class="propertyName"><a href="#" data-selector="a[title=\''+escapeHTML(generatePath(path))+'\'" onclick="document.querySelector&&document.querySelector(this.getAttribute(\'data-selector\')).click();return false;">'+escapeHTML(generatePath(path))+'</a></td>';
+    output += '<td valign="top" class="propertyName"><a href="#" data-selector="a[title=\''+escapeHTML(generatePath(path))+'\']" onclick="document.querySelector&&document.querySelector(this.getAttribute(\'data-selector\')).click();return false;">'+escapeHTML(generatePath(path))+'</a></td>';
     output += '<td valign="top" class="propertyValue'+(interestingProp?' interesting':'')+'">';
     try {
       output += '<code><pre>'+escapeHTML(obj)+'</pre></code>';
@@ -374,8 +374,8 @@ window.Inspector = function(){
     try {
       if(typeof obj === 'function') {
         output += '<div class="box arguments">arguments:'+escapeHTML(obj.length)+'</div>';
-        output += '<div class="box"><a href="#" onclick="try{Inspector.log('+escapeHTML(generatePath(path))+'(),false,'+escapeHTML(generatePath(path))+');}catch(e){Inspector.error(e);}return false;">Call function and return value</a></div>';
-        output += '<div class="box"><a href="#" onclick="try{'+escapeHTML(generatePath(path))+'(function(){Inspector.log(\'Callback called for:'+jsEscape(generatePath(path))+'\');});}catch(e){Inspector.error(e);}return false;">Call function with callback</a></div>';
+        output += '<div class="box"><a href="#" onclick="try{Inspector.log('+escapeHTML(generatePath(path))+'(),false,'+escapeHTML(generatePath(path))+');}catch(e){Inspector.error(e);}return false;">Call function</a></div>';
+        output += '<div class="box"><a href="#" onclick="try{'+escapeHTML(generatePath(path))+'(function(){Inspector.log(\'Callback called for:'+jsEscape(generatePath(path))+'\');});}catch(e){Inspector.error(e);}return false;">Call function CB</a></div>';
       } else if(obj && typeof obj.length !== 'undefined') {
         if(typeof obj.length === 'function') {
           try {
@@ -386,12 +386,15 @@ window.Inspector = function(){
         }
       }
     } catch(e){}
+
+    output += '<div class="box"><a href="#" onclick="var t;navigator.clipboard ? navigator.clipboard.writeText(this.getAttribute(\'data-path\')) : (t = document.createElement(\'textarea\'), t.value = this.getAttribute(\'data-path\'), this.insertAdjacentElement(\'afterend\', t), t.focus(), t.select(), document.execCommand(\'copy\'), this.parentNode.removeChild(t));return false;" data-path="'+escapeHTML(generatePath(path))+'">Copy path</a></div>';
+
     output += '<div class="box"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(generatePath(path))+'">Send to input</a></div>';
     if(Object.getOwnPropertyDescriptor && parent) {
       try {
         descriptor = Object.getOwnPropertyDescriptor(parent, name);
         if(descriptor) {
-          output += '<div class="box"><table><tr><td class="descriptorName">Writable</td><td class="descriptorValue">'+escapeHTML(descriptor.writable)+'</td></tr>';
+          output += '<div><table><tr><td class="descriptorName">Writable</td><td class="descriptorValue">'+escapeHTML(descriptor.writable)+'</td></tr>';
           output += '<tr><td class="descriptorName">Configurable</td><td class="descriptorValue">'+escapeHTML(descriptor.configurable)+'</td></tr>';
           output += '<tr><td class="descriptorName">Enumerable</td><td class="descriptorValue">'+escapeHTML(descriptor.enumerable)+'</td></tr>';
           if(descriptor.value) {
@@ -1072,7 +1075,7 @@ window.Inspector = function(){
         historyPos = 0;
         if(element.value.length) {
           if(!event.shiftKey && !event.ctrlKey && element.className === 'singleLineInput') {
-            Inspector.inspect(this.value);            
+            Inspector.inspect(this.value);
           } else {
             if(event.shiftKey && !event.ctrlKey) {
               Inspector.inspect(element.value, false, true);
