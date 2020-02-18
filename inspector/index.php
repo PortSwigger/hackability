@@ -15,7 +15,7 @@ $logger->init();
 </head>
 <body>
 <form autocomplete="off" onsubmit="return false;">
-    <textarea class="singleLineInput" id="input" autofocus placeholder="Shortcuts:RETURN (Eval &amp; Inspect), CTRL+RETURN (Eval js), SHIFT+RETURN (Eval but don't inspect)"></textarea>
+    <textarea class="singleLineInput" id="input" autofocus placeholder="Shortcuts:RETURN (Eval &amp; Inspect), CTRL+RETURN (Eval &amp; Inspect), CTRL+SHIFT+RETURN (Eval only), SHIFT+RETURN (Eval but don't inspect)"></textarea>
 </form>
 <div id="output"></div>
 <div id="usage">
@@ -50,7 +50,8 @@ $logger->init();
   <h1>Shortcuts</h1>
   <ul>
       <li>RETURN: Eval js &amp; inspect</li>
-      <li>CTRL+RETURN: Eval js but don't inspect and don't return result (used in multiline mode)</li>
+      <li>CTRL+RETURN: Eval js &amp; inspect (used in multiline mode)</li>
+      <li>CTRL+SHIFT+RETURN: Eval js but don't inspect and don't return result (used in multiline mode)</li>
       <li>SHIFT+RETURN: Eval but don't inspect</li>
       <li>CTRL+BACKSPACE: Clear</li>
       <li>CTRL+SHIFT+BACKSPACE: Clear history</li>

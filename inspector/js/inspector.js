@@ -1072,12 +1072,14 @@ window.Inspector = function(){
         historyPos = 0;
         if(element.value.length) {
           if(!event.shiftKey && !event.ctrlKey && element.className === 'singleLineInput') {
-            Inspector.inspect(this.value);
+            Inspector.inspect(this.value);            
           } else {
-            if(event.shiftKey) {
+            if(event.shiftKey && !event.ctrlKey) {
               Inspector.inspect(element.value, false, true);
-            } else if(event.ctrlKey) {
+            } else if(event.shiftKey && event.ctrlKey) {
               Inspector.execute(element.value);
+            } else if(event.ctrlKey) {
+              Inspector.inspect(element.value);
             }
           }
           if(element.className === 'multiLineInput' && !event.ctrlKey && !event.shiftKey) {
