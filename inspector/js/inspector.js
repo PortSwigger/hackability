@@ -394,29 +394,28 @@ window.Inspector = function(){
       try {
         descriptor = Object.getOwnPropertyDescriptor(parent, name);
         if(descriptor) {
-          output += '<div><table><tr><td class="descriptorName">Writable</td><td class="descriptorValue">'+escapeHTML(descriptor.writable)+'</td></tr>';
-          output += '<tr><td class="descriptorName">Configurable</td><td class="descriptorValue">'+escapeHTML(descriptor.configurable)+'</td></tr>';
-          output += '<tr><td class="descriptorName">Enumerable</td><td class="descriptorValue">'+escapeHTML(descriptor.enumerable)+'</td></tr>';
+          output += '<div class="box">'+(descriptor.writable?'writable':'not writable')+'</div>';
+          output += '<div class="box">'+(descriptor.configurable?'configurable':'not configurable')+'</div>';
+          output += '<div class="box">'+(descriptor.enumerable?'enumerable':'not enumerable')+'</div>';
           if(descriptor.value) {
             try {
               if(descriptor.value.constructor.constructor === descriptor.value.constructor && descriptor.value.constructor('return document.domain')() !== document.domain)
-              output += '<tr><td class="descriptorName">Value constructor</td><td class="descriptorValue"><div class="error">X-domain constructor found!</div></td></tr>';
+              output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML('descriptor=Object.getOwnPropertyDescriptor('+generatePath(path.slice(0,path.length-1)))+',\''+name+'\');descriptor.value.constructor(\'alert(document.domain)\')()">Value constructor:X-domain constructor found!</a></div>';
             } catch(e){}
           }
           if(descriptor.set) {
-            output += '<tr><td class="descriptorName">Setter</td><td class="descriptorValue">'+escapeHTML(descriptor.set)+'</td></tr>';
+            output += '<div class="box">Setter:'+escapeHTML(descriptor.set)+'</div>';
           }
           if(descriptor.get) {
-            output += '<tr><td class="descriptorName">Getter</td><td class="descriptorValue">'+escapeHTML(descriptor.get)+'</td></tr>';
+            output += '<div class="box">Getter:'+escapeHTML(descriptor.get)+'</div>';
             try {
               if(descriptor.get.constructor === descriptor.get.constructor.constructor && descriptor.get.constructor('return document.domain')() !== document.domain)
-              output += '<tr><td class="descriptorName">Getter constructor</td><td class="descriptorValue"><div class="error">X-domain constructor found!</div></td></tr>';
+              output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML('descriptor=Object.getOwnPropertyDescriptor('+generatePath(path.slice(0,path.length-1)))+',\''+name+'\');descriptor.get.constructor(\'alert(document.domain)\')()">Getter constructor:X-domain constructor found!</a></div>';
             } catch(e){}
             try {
-              output += '<tr><td class="descriptorName">Calling getter</td><td class="descriptorValue">'+escapeHTML(descriptor.get.call(parent))+'</td></tr>';
+              output += '<div class="box">Calling getter:'+escapeHTML(descriptor.get.call(parent))+'</div>';
             } catch(e){}
           }
-          output += '</table></div>';
         }
       } catch(e){}
     }
@@ -466,7 +465,7 @@ window.Inspector = function(){
         if(window.console) {
           console.log('X-domain constructor found!');
         }
-        output += '<div class="error">X-domain constructor found!</div>';
+        output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(''+generatePath(path))+'.constructor.constructor.constructor(\'alert(document.domain)\')()">X-domain constructor found!</a></div>';
       }
     } catch(e){}
     try {
@@ -474,7 +473,7 @@ window.Inspector = function(){
         if(window.console) {
           console.log('X-domain constructor found!');
         }
-        output += '<div class="error">X-domain constructor found!</div>';
+        output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(''+generatePath(path))+'.constructor.prototype.__defineGetter__.constructor(\'alert(document.domain)\')()">X-domain constructor found!</a></div>';
       }
     } catch(e){}
     output += '</td>';

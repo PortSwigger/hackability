@@ -135,7 +135,7 @@ pre {
   border:1px solid #efefef;
   margin:1px;
   display:inline-block;
-  width:100px;
+  width:auto;
 }
 .interesting {
   border:2px solid #000000 !important;
