@@ -183,6 +183,16 @@ window.Inspector = function(){
       return!!(obj.href && obj.replace && obj.host && typeof obj.hash === 'string' && typeof obj.search === 'string');
     } catch(e){return false;}
   }
+  function isReadException(obj) {
+    try {
+      if(obj) {
+        var read = obj + '';
+      }
+    } catch(e){
+      return true;
+    }
+    return false;
+  }
   function isCrossDomainLocation(obj) {
       try{
         if(obj.replace) {
@@ -806,10 +816,9 @@ window.Inspector = function(){
                   continue;
                 }
               } else if(selectedType === 'property exceptions') {
-                try {
-                  var read = this.object[props[i]] + '';
+                if(!isReadException(this.object[props[i]])) {
                   continue;
-                } catch(e){}
+                }
               } else if(selectedType === 'java bridge') {
                 if(!isJavaBridge(this.object[props[i]])) {
                   continue;
