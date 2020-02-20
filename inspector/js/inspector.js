@@ -410,7 +410,10 @@ window.Inspector = function(){
           if(descriptor.value) {
             try {
               if(descriptor.value.constructor.constructor === descriptor.value.constructor && descriptor.value.constructor('return document.domain')() !== document.domain) {
-                alert('X-domain constructor found!');
+                if(!Inspector.displayedSecurityAlert) {
+                  alert('X-domain constructor found!');
+                  Inspector.displayedSecurityAlert = true;
+                }
                 output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML('descriptor=Object.getOwnPropertyDescriptor('+generatePath(path.slice(0,path.length-1)))+',\''+name+'\');descriptor.value.constructor(\'alert(document.domain)\')()">Value constructor:X-domain constructor found!</a></div>';
               }
             } catch(e){}
@@ -422,7 +425,10 @@ window.Inspector = function(){
             output += '<div class="box">Getter:'+escapeHTML(descriptor.get)+'</div>';
             try {
               if(descriptor.get.constructor === descriptor.get.constructor.constructor && descriptor.get.constructor('return document.domain')() !== document.domain) {
-                alert('X-domain constructor found!');
+                if(!Inspector.displayedSecurityAlert) {
+                  alert('X-domain constructor found!');
+                  Inspector.displayedSecurityAlert = true;
+                }
                 output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML('descriptor=Object.getOwnPropertyDescriptor('+generatePath(path.slice(0,path.length-1)))+',\''+name+'\');descriptor.get.constructor(\'alert(document.domain)\')()">Getter constructor:X-domain constructor found!</a></div>';
               }
             } catch(e){}
@@ -476,13 +482,19 @@ window.Inspector = function(){
     }
     try {
       if(obj.constructor.constructor.constructor('return document.domain')() !== document.domain) {
-        alert('X-domain constructor found!');
+        if(!Inspector.displayedSecurityAlert) {
+          alert('X-domain constructor found!');
+          Inspector.displayedSecurityAlert = true;
+        }
         output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(''+generatePath(path))+'.constructor.constructor.constructor(\'alert(document.domain)\')()">X-domain constructor found!</a></div>';
       }
     } catch(e){}
     try {
       if(obj.constructor.prototype.__defineGetter__.constructor('return document.domain')() !== document.domain) {
-        alert('X-domain constructor found!');
+        if(!Inspector.displayedSecurityAlert) {
+          alert('X-domain constructor found!');
+          Inspector.displayedSecurityAlert = true;
+        }
         output += '<div class="error"><a href=# onclick="Inspector.setInput(this.getAttribute(\'data-path\'));return false;" data-path="'+escapeHTML(''+generatePath(path))+'.constructor.prototype.__defineGetter__.constructor(\'alert(document.domain)\')()">X-domain constructor found!</a></div>';
       }
     } catch(e){}
@@ -873,6 +885,7 @@ window.Inspector = function(){
         this.enumerated=true;
     };
     if(isRoot) {
+      Inspector.displayedSecurityAlert = false;
       if(params) {
         if(params.recursive === 'true') {
           Inspector.recursive = true;
