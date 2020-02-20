@@ -319,7 +319,7 @@ window.Inspector = function(){
     }
   }
   function securityChecks(obj, path, name, parent) {
-    var output = '';
+    var output = '', test;
     try {
       Object.defineProperty(obj,'definePropertyTest', {configurable:true,get:function(){return "test";}});
       if(obj.definePropertyTest === 'test') {
@@ -360,8 +360,8 @@ window.Inspector = function(){
     }
     return output;
   }
-  function createEnumerator(obj, params, isRoot, name, path, parent, interestingProp) {
-    var enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, objectType, option, regexInput, regexValueInput, jsInput,
+  function createEnumerator(obj, params, isRoot, name, path, parent, interestingProp, depth) {
+    var maxDepth = 5, enumerator = document.createElement('div'), output = '', realType, prop, descriptor, descriptors, checkbox, objectType, option, regexInput, regexValueInput, jsInput,
         ul = document.createElement('ul'), li = document.createElement('li'), anchor = document.createElement('a'), test, i, filtersSpan = document.createElement('span');
     filtersSpan.style.display = 'none';
     filtersSpan.className = 'filtersSpan';
@@ -840,7 +840,16 @@ window.Inspector = function(){
           }
           if(js) {
             try {
-              Function('obj','prop',js)(this.object, props[i]);
+              Function('obj','prop','path',js)(this.object, props[i], generatePath(path.concat([props[i]])));
+            } catch(e){
+              if(window.console) {
+                console.error(e.message);
+              }
+            }
+          }
+          if(Inspector.recursiveJS.length) {
+            try {
+              Function('obj','prop','path',Inspector.recursiveJS)(this.object, props[i], generatePath(path.concat([props[i]])));
             } catch(e){
               if(window.console) {
                 console.error(e.message);
@@ -849,7 +858,7 @@ window.Inspector = function(){
           }
           li = document.createElement('li');
           try {
-            li.appendChild(createEnumerator(this.object[props[i]], {}, false, props[i], path.concat([props[i]]), this.object, interestingPropsLookup['_check_'+props[i]] && (isChromeObject(this.object) || isWindow(this.object)) ? true : false));
+            li.appendChild(createEnumerator(this.object[props[i]], {}, false, props[i], path.concat([props[i]]), this.object, interestingPropsLookup['_check_'+props[i]] && (isChromeObject(this.object) || isWindow(this.object)) ? true : false, depth + 1));
             ul.appendChild(li);
           } catch(e){}
           checkProp['_check_'+props[i]] = 1;
@@ -865,9 +874,19 @@ window.Inspector = function(){
     };
     if(isRoot) {
       if(params) {
+        if(params.recursive === 'true') {
+          Inspector.recursive = true;
+        }
+        if(typeof params.recursiveJS !== 'undefined') {
+          Inspector.recursiveJS = params.recursiveJS;
+        }
         li.enumerate(params.interesting==='true' ? true : false, params.regex, params.regexValue, params.js, params.type);
       } else {
         li.enumerate();
+      }
+    } else {
+      if(obj && Inspector.recursive && isReadException(obj) && depth < maxDepth) {
+        anchor.click();
       }
     }
     ul.appendChild(li);
@@ -897,7 +916,7 @@ window.Inspector = function(){
       if(name === false) {
         div.appendChild(document.createTextNode(output));
       } else {
-        div.appendChild(createEnumerator(output, params, true, name, [name]));
+        div.appendChild(createEnumerator(output, params, true, name, [name], undefined, undefined, 0));
       }
     }
     div.className = 'output';
@@ -1087,7 +1106,9 @@ window.Inspector = function(){
       } else if(event.keyCode === 13) {
         historyPos = 0;
         if(element.value.length) {
-          if(!event.shiftKey && !event.ctrlKey && element.className === 'singleLineInput') {
+          if(event.altKey) {
+            Inspector.inspect(this.value, undefined, undefined, true);
+          } else if(!event.shiftKey && !event.ctrlKey && element.className === 'singleLineInput') {
             Inspector.inspect(this.value);
           } else {
             if(event.shiftKey && !event.ctrlKey) {
@@ -1124,8 +1145,10 @@ window.Inspector = function(){
   return {
       execute: execute,
       inspect: inspect,
+      recursive: false,
+      recursiveJS: '',
       diff: function diff(obj1, obj2, path, depth){
-        var props1 = obj1 ? getProperties(obj1) : [], props2 = obj2 ? getProperties(obj2) : [], maxDepth = 3, combined, i, prop, differences = [];
+        var props1 = obj1 ? getProperties(obj1) : [], props2 = obj2 ? getProperties(obj2) : [], maxDepth = 4, combined, i, prop, differences = [];
         if(!depth) {
           depth = 0;
         }

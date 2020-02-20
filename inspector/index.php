@@ -25,10 +25,13 @@ $logger->init();
     <li>Only show <a href="index.php?input=window&interesting=true">interesting</a> properties</li>
     <li>Filter properties by <a href="index.php?input=window&regex=__$">regex</a></li>
     <li>Filter values by <a href="index.php?input=window&regexValue=\[object Navigator\]">regex</a></li>
-    <li>Execute <a href="index.php?input=window&js=console.log(prop);obj[prop](prop)">js</a> on every property
+    <li>Recursive mode on x-domain objects <a href="index.php?input=x&html=<iframe src=//subdomain1.portswigger-labs.net id=x>&recursive=true">recursive</a></li>
+    <li>Recursive mode with js (obj,prop,path) <a href="index.php?input=x.contentWindow&html=<iframe src=//subdomain1.portswigger-labs.net id=x>&recursive=true&recursiveJS=console.log(path)">recursive</a></li>
+    <li>Execute <a href="index.php?input=x.contentWindow&js=console.log(prop);obj[prop](prop)">js</a> on every property
         <ul>
           <li>obj contains a reference to current enumerated object.</li>
           <li>prop contains a string of the property name</li>
+          <li>path contains a string of the path to the property</li>
         </ul>
     </li>
     <li>Filter properties by <a href="index.php?input=window&type=string">type</a></li>
